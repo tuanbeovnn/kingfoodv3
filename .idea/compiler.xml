@@ -6,18 +6,24 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="security" />
+        <module name="security-config" />
+        <module name="customer-services" />
+        <module name="domains" />
+        <module name="user-service" />
+        <module name="wallet-services" />
+        <module name="commons" />
+        <module name="order-services" />
         <module name="application" />
         <module name="utils" />
-        <module name="customer-services" />
         <module name="product-services" />
-        <module name="domains" />
-        <module name="wallet-services" />
         <module name="gateway" />
         <module name="db-provider" />
-        <module name="commons" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="security" target="8" />
+      <module name="security-service" target="8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
@@ -27,8 +33,12 @@
       <module name="db-provider" options="-parameters" />
       <module name="domains" options="-parameters" />
       <module name="gateway" options="-parameters" />
+      <module name="order-services" options="-parameters" />
       <module name="product-services" options="-parameters" />
       <module name="security" options="-parameters" />
+      <module name="security-config" options="-parameters" />
+      <module name="security-service" options="-parameters" />
+      <module name="user-service" options="-parameters" />
       <module name="utils" options="-parameters" />
       <module name="wallet-services" options="-parameters" />
     </option>

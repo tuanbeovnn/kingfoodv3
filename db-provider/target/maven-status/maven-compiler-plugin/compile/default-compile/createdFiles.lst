@@ -1,0 +1,9 @@
+com/kingfood/backend/dbprovider/custom/ProductRepositoryCustom.class
+com/kingfood/backend/dbprovider/RoleRepository.class
+com/kingfood/backend/dbprovider/CategoryRepository.class
+com/kingfood/backend/dbprovider/ApiRepository.class
+com/kingfood/backend/dbprovider/OrderRepository.class
+com/kingfood/backend/dbprovider/OrderDetailRepository.class
+com/kingfood/backend/dbprovider/UserRepository.class
+com/kingfood/backend/dbprovider/custom/impl/ProductRepositoryImpl.class
+com/kingfood/backend/dbprovider/ProductRepository.class

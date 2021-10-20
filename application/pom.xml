@@ -43,12 +43,6 @@
 
         <dependency>
             <groupId>com.kingfood.backend</groupId>
-            <artifactId>security</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.kingfood.backend</groupId>
             <artifactId>customer-services</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -61,5 +55,13 @@
 
 
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

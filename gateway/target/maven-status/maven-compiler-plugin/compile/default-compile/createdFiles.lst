@@ -1,0 +1,5 @@
+com/kingfood/backend/gateway/uploads/UploadAPI.class
+com/kingfood/backend/gateway/orders/OrderAPI.class
+com/kingfood/backend/gateway/products/ProductAPI.class
+com/kingfood/backend/gateway/users/UserAPI.class
+com/kingfood/backend/gateway/categories/CategoryApi.class

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="0be050c6-aa5c-463c-bcc3-76705737294b" name="deployapp">
+        <fileTransfer rootFolder="/home/test/deployapp" accessType="SFTP" host="bienhoa.ga" port="10117" sshConfigId="b3940084-e137-4ea9-8184-f91788f59f83" sshConfig="tuan@bienhoa.ga:10117 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

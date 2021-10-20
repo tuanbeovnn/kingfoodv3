@@ -1,0 +1,9 @@
+/Users/tuannguyen/IdeaProjects/kingfood/db-provider/src/main/java/com/kingfood/backend/dbprovider/OrderRepository.java
+/Users/tuannguyen/IdeaProjects/kingfood/db-provider/src/main/java/com/kingfood/backend/dbprovider/CategoryRepository.java
+/Users/tuannguyen/IdeaProjects/kingfood/db-provider/src/main/java/com/kingfood/backend/dbprovider/ApiRepository.java
+/Users/tuannguyen/IdeaProjects/kingfood/db-provider/src/main/java/com/kingfood/backend/dbprovider/custom/ProductRepositoryCustom.java
+/Users/tuannguyen/IdeaProjects/kingfood/db-provider/src/main/java/com/kingfood/backend/dbprovider/custom/impl/ProductRepositoryImpl.java
+/Users/tuannguyen/IdeaProjects/kingfood/db-provider/src/main/java/com/kingfood/backend/dbprovider/ProductRepository.java
+/Users/tuannguyen/IdeaProjects/kingfood/db-provider/src/main/java/com/kingfood/backend/dbprovider/RoleRepository.java
+/Users/tuannguyen/IdeaProjects/kingfood/db-provider/src/main/java/com/kingfood/backend/dbprovider/UserRepository.java
+/Users/tuannguyen/IdeaProjects/kingfood/db-provider/src/main/java/com/kingfood/backend/dbprovider/OrderDetailRepository.java

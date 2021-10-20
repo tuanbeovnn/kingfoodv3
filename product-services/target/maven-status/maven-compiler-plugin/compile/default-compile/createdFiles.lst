@@ -1,0 +1,6 @@
+com/kingfood/backend/service/CategoryService.class
+com/kingfood/backend/service/impl/CategoryServiceImpl.class
+com/kingfood/backend/service/FileService.class
+com/kingfood/backend/service/impl/FileServiceImpl.class
+com/kingfood/backend/service/ProductService.class
+com/kingfood/backend/service/impl/ProductServiceImpl.class

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig authType="PASSWORD" host="bienhoa.ga" id="b3940084-e137-4ea9-8184-f91788f59f83" port="10117" nameFormat="DESCRIPTIVE" username="tuan" />
+    </configs>
+  </component>
+</project>

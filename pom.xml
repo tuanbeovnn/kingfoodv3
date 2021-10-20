@@ -20,11 +20,14 @@
         <module>product-services</module>
         <module>gateway</module>
         <module>db-provider</module>
-        <module>security</module>
         <module>wallet-services</module>
         <module>commons</module>
         <module>customer-services</module>
         <module>utils</module>
+        <module>order-services</module>
+        <module>user-service</module>
+        <module>security</module>
+        <module>security-config</module>
     </modules>
 
     <properties>
@@ -36,11 +39,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>com.kingfood.backend</groupId>
-                <artifactId>security</artifactId>
-                <version>1.0</version>
-            </dependency>
             <dependency>
                 <groupId>com.kingfood.backend</groupId>
                 <artifactId>domains</artifactId>
@@ -225,9 +223,5 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
     </dependencies>
-
-
-
 </project>
