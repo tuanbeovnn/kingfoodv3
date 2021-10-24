@@ -12,6 +12,7 @@
 /Users/tuannguyen/IdeaProjects/kingfood/utils/src/main/java/com/kingfood/backend/constants/AppConstant.java
 /Users/tuannguyen/IdeaProjects/kingfood/utils/src/main/java/com/kingfood/backend/pageable/PageList.java
 /Users/tuannguyen/IdeaProjects/kingfood/utils/src/main/java/com/kingfood/backend/validation/ValidateCustom.java
+/Users/tuannguyen/IdeaProjects/kingfood/utils/src/main/java/com/kingfood/backend/convert/StringConvert.java
 /Users/tuannguyen/IdeaProjects/kingfood/utils/src/main/java/com/kingfood/backend/constants/Constants.java
 /Users/tuannguyen/IdeaProjects/kingfood/utils/src/main/java/com/kingfood/backend/validation/ValidationUtils.java
 /Users/tuannguyen/IdeaProjects/kingfood/utils/src/main/java/com/kingfood/backend/exceptions/CustomException.java

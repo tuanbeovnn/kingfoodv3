@@ -1,3 +1,4 @@
+com/kingfood/backend/securityconfig/oath2/config/CORSFilter.class
 com/kingfood/backend/securityconfig/oath2/config/AuthorizationServerConfig.class
 com/kingfood/backend/securityconfig/oath2/config/WebMvcConfiguration.class
 com/kingfood/backend/securityconfig/oath2/dto/UserPrincipalOauth2.class

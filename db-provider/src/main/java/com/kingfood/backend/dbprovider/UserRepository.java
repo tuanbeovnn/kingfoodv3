@@ -5,9 +5,7 @@ import com.kingfood.backend.domains.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-/**
- * @author datdv
- */
+
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
     UserEntity findOneByUserName(String userName);

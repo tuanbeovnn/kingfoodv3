@@ -50,7 +50,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         registry.addInterceptor(gatewayInterceptor).addPathPatterns("/**")
                 .excludePathPatterns("/v2/api-docs", "/configuration/ui",
                         "/swagger-resources/**", "/configuration/**", "/swagger-ui.html"
-                        , "/webjars/**", "/csrf", "/");
+                        , "/webjars/**", "/csrf", "/", "/error");
     }
 
     @Bean

@@ -1,5 +1,6 @@
 /Users/tuannguyen/IdeaProjects/kingfood/security-config/src/main/java/com/kingfood/backend/securityconfig/oath2/config/SwaggerConfig.java
 /Users/tuannguyen/IdeaProjects/kingfood/security-config/src/main/java/com/kingfood/backend/securityconfig/oath2/config/WebMvcConfiguration.java
+/Users/tuannguyen/IdeaProjects/kingfood/security-config/src/main/java/com/kingfood/backend/securityconfig/oath2/config/CORSFilter.java
 /Users/tuannguyen/IdeaProjects/kingfood/security-config/src/main/java/com/kingfood/backend/securityconfig/oath2/config/WebSecurityConfig.java
 /Users/tuannguyen/IdeaProjects/kingfood/security-config/src/main/java/com/kingfood/backend/securityconfig/oath2/config/CustomPasswordAuthenticationProvider.java
 /Users/tuannguyen/IdeaProjects/kingfood/security-config/src/main/java/com/kingfood/backend/securityconfig/oath2/config/AuthorizationServerConfig.java

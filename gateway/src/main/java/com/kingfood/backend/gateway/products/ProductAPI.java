@@ -68,8 +68,8 @@ public class ProductAPI {
      * @param productId
      * @return
      */
-    @RequestMapping(value = "/admin/product/details/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> findById(@PathVariable("id") Long productId) {
+    @RequestMapping(value = "/admin/product/details", method = RequestMethod.GET)
+    public ResponseEntity<?> findById(@RequestParam Long productId) {
         ProductResponse productResponse = productService.findById(productId);
         return ResponseEntityBuilder.getBuilder().setDetails(productResponse).setMessage("Find product successfully").build();
     }

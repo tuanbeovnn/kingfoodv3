@@ -40,7 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String header = req.getHeader(AppConstant.O2Constants.HEADER_STRING);
         String email = null;
         if (header != null && header.startsWith(AppConstant.O2Constants.TOKEN_PREFIX)) {
-            email = securityUtils.getAdditional(header).getAdditionalInformation().get(AppConstant.O2Constants.EMAIL).toString();
+            email = securityUtils.getAdditional(header).get(AppConstant.O2Constants.EMAIL).toString();
         }
 
         if (Objects.equals(req.getServletPath(), "/api/lms/user/login") && Objects.equals(req.getContentType(), "application/json")) {

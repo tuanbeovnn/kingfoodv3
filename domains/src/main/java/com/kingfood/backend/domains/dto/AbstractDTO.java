@@ -5,9 +5,7 @@ import lombok.Setter;
 
 import java.util.Date;
 
-/**
- * @author datdv
- */
+
 @Getter
 @Setter
 public class AbstractDTO {

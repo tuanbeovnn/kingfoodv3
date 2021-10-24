@@ -45,6 +45,11 @@
             <artifactId>user-service</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.kingfood.backend</groupId>
+            <artifactId>customer-services</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.kingfood.backend</groupId>

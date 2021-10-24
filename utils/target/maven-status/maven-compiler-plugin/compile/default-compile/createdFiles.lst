@@ -24,6 +24,7 @@ com/kingfood/backend/constants/AppConstant.class
 com/kingfood/backend/exceptionsv2/AppException.class
 com/kingfood/backend/constants/Constants$Query$SEARCH_FIELDS.class
 com/kingfood/backend/pageable/PageList.class
+com/kingfood/backend/convert/StringConvert.class
 com/kingfood/backend/constants/Constants$Elasticsearch.class
 com/kingfood/backend/build/BuildQueryUtils.class
 com/kingfood/backend/constants/Constants$RelationFormat.class

@@ -21,6 +21,8 @@ public enum ErrorCode {
     CODE_EXIST(HttpStatus.BAD_REQUEST, "LMS-400", "The code exists"),
     ANSWER_NOT_FOUND(HttpStatus.BAD_REQUEST, "Could not find the answer", "Could not find the answer"),
     EMPTY_PRODUCT(HttpStatus.BAD_REQUEST, "LMS-400", "The product is empty"),
+    USER_EXISTS(HttpStatus.BAD_REQUEST,"LMS-40019","User had been already exists."),
+    USER_NOT_LOGIN(HttpStatus.INTERNAL_SERVER_ERROR,"LMS-40020","Customer needs to login"),
     UNSUPPORT_FILE_EXTENSION(HttpStatus.BAD_REQUEST, "LMS-40020", "Unsupport this file extension");
 
 

@@ -10,9 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * @author datdv
- */
+
 @Repository
 public interface ApiRepository extends JpaRepository<ApiEntity, Long>, JpaSpecificationExecutor<ApiEntity> {
     ApiEntity findOneById(Integer id);

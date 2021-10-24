@@ -7,15 +7,15 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="security-config" />
+        <module name="application" />
+        <module name="utils" />
         <module name="customer-services" />
+        <module name="product-services" />
         <module name="domains" />
         <module name="user-service" />
         <module name="wallet-services" />
         <module name="commons" />
         <module name="order-services" />
-        <module name="application" />
-        <module name="utils" />
-        <module name="product-services" />
         <module name="gateway" />
         <module name="db-provider" />
       </profile>

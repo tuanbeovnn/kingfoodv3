@@ -11,11 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Class contain logic common.
- *
- * @author DatDV
- */
+
 public class CommonUtils {
 
     private CommonUtils() {

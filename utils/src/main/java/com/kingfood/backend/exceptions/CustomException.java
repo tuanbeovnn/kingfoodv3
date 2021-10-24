@@ -5,11 +5,7 @@ import com.kingfood.backend.constants.Constants;
 
 import java.util.*;
 
-/**
- * Custom GraphQLError
- *
- * @author DatDV
- */
+
 public class CustomException extends RuntimeException {
 
     /**

@@ -2,10 +2,12 @@ package com.kingfood.backend.order.impl;
 
 import com.kingfood.backend.DateTimeUtils.DateTimeUtils;
 import com.kingfood.backend.convert.Converter;
+import com.kingfood.backend.dbprovider.CustomerRepository;
 import com.kingfood.backend.dbprovider.OrderDetailRepository;
 import com.kingfood.backend.dbprovider.OrderRepository;
 import com.kingfood.backend.dbprovider.ProductRepository;
 import com.kingfood.backend.domains.dto.OrderDTO;
+import com.kingfood.backend.domains.entity.CustomerEntity;
 import com.kingfood.backend.domains.entity.OrderDetailsEntity;
 import com.kingfood.backend.domains.entity.OrderEntity;
 import com.kingfood.backend.domains.entity.ProductEntity;
@@ -14,12 +16,17 @@ import com.kingfood.backend.domains.response.OrderResponse;
 import com.kingfood.backend.exceptionsv2.AppException;
 import com.kingfood.backend.exceptionsv2.ErrorCode;
 import com.kingfood.backend.order.OrderService;
+import com.kingfood.backend.securityconfig.oath2.service.SecurityUtils;
+import org.apache.catalina.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,6 +40,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderDetailRepository orderDetailRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     @Override
     @Transactional
@@ -69,7 +79,6 @@ public class OrderServiceImpl implements OrderService {
     public OrderResponse createOrder(OrderDTO orderDTO) {
         OrderEntity orderEntity = Converter.toModel(orderDTO, OrderEntity.class);
         orderEntity.setOrderDate(DateTimeUtils.getDateTimeNow());
-        orderEntity = orderRepository.save(orderEntity);
         OrderEntity finalOrderEntity = orderEntity;
         List<OrderDetailsEntity> orderDetailsEntities = orderDTO.getOrderDetailRequests().stream().map(item -> {
             OrderDetailsEntity insertData = new OrderDetailsEntity();
@@ -91,6 +100,9 @@ public class OrderServiceImpl implements OrderService {
             return insertData;
         }).collect(Collectors.toList());
         finalOrderEntity.setOrderDetails(orderDetailsEntities);
+        CustomerEntity customerEntity = customerRepository.findById(SecurityUtils.getPrincipal().getUserId()).get();
+        orderEntity.setCustomer(customerEntity);
+        orderEntity = orderRepository.save(orderEntity);
         return Converter.toModel(orderEntity, OrderResponse.class);
     }
 

@@ -1,6 +1,7 @@
 package com.kingfood.backend.domains.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kingfood.backend.domains.response.ProductProfileResponse;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,22 @@ import java.util.List;
 @Table(name = "products")
 @Getter
 @Setter
+@SqlResultSetMapping(name = "findListOrderByCustomerId", classes =
+        {
+                @ConstructorResult(targetClass = ProductProfileResponse.class, columns = {
+                        @ColumnResult(name = "id", type = Long.class),
+                        @ColumnResult(name = "product_name", type = String.class),
+                        @ColumnResult(name = "img_highlight", type = String.class),
+                        @ColumnResult(name = "image", type = String.class),
+                        @ColumnResult(name = "price", type = Double.class),
+                        @ColumnResult(name = "size", type = String.class),
+                        @ColumnResult(name = "description", type = String.class),
+                        @ColumnResult(name = "nutrition", type = String.class),
+                        @ColumnResult(name = "purchases", type = Integer.class),
+                })
+        }
+
+)
 public class ProductEntity extends BaseEntity {
 
     @Column(name = "product_name")
