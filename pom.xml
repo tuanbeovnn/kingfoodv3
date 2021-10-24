@@ -20,7 +20,6 @@
         <module>product-services</module>
         <module>gateway</module>
         <module>db-provider</module>
-        <module>wallet-services</module>
         <module>commons</module>
         <module>customer-services</module>
         <module>utils</module>
@@ -209,7 +208,7 @@
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
-            <version>5.0.0-alpha.2</version>
+            <version>4.9.1</version>
         </dependency>
 
         <!--junit-->

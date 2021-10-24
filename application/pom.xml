@@ -52,8 +52,6 @@
             <artifactId>product-services</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-
     </dependencies>
     <build>
         <plugins>

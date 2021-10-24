@@ -16,7 +16,7 @@ import java.util.List;
 
 
 @Api(
-        tags = "Role-API",
+        tags = "Role-Resource",
         description = "Providing api for Role"
 )
 @RestController

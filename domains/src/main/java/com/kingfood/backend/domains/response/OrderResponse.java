@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class OrderResponse {
+    private Long id;
     private String name;
     private String address;
     private String city;

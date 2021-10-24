@@ -50,7 +50,9 @@ public class ApiServiceImpl implements ApiService {
         List<RoleEntity> roles = roleRepository.findByIdIn(input.getRoleIds());
         entity.setRoles(roles);
         entity = apiRepository.save(entity);
-        return Converter.toModel(entity, ApiDTO.class);
+        ApiDTO result = Converter.toModel(entity, ApiDTO.class);
+        result.setRoleIds(entity.getRoles().stream().map(RoleEntity::getId).collect(Collectors.toList()));
+        return result;
     }
 
     /**

@@ -48,6 +48,7 @@ com/kingfood/backend/constants/Constants.class
 com/kingfood/backend/constants/Constants$ChangeAction.class
 com/kingfood/backend/constants/AppConstant$sendMail.class
 com/kingfood/backend/constants/Constants$ServiceType.class
+com/kingfood/backend/exceptionsv2/ResourceNotFoundException.class
 com/kingfood/backend/constants/Constants$FieldBelong.class
 com/kingfood/backend/FormUtils/FormUtils.class
 com/kingfood/backend/exceptionsv2/ErrorCode.class

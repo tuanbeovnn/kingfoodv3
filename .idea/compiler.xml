@@ -13,7 +13,6 @@
         <module name="product-services" />
         <module name="domains" />
         <module name="user-service" />
-        <module name="wallet-services" />
         <module name="commons" />
         <module name="order-services" />
         <module name="gateway" />
@@ -23,6 +22,7 @@
     <bytecodeTargetLevel>
       <module name="security" target="8" />
       <module name="security-service" target="8" />
+      <module name="wallet-services" target="8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

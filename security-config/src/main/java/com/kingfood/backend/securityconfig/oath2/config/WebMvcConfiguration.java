@@ -43,7 +43,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     /**
      * final InterceptorRegistry registry
      *
-     * @param registry
+     * @param
      */
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {

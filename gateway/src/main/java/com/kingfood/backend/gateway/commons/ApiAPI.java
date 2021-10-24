@@ -9,6 +9,9 @@ import com.kingfood.backend.domains.request.ApiRequest;
 import com.kingfood.backend.pageable.PageList;
 import com.kingfood.backend.responseBuilder.ResponseEntityBuilder;
 import com.kingfood.backend.securityconfig.interceptor.GatewayInterceptor;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +21,12 @@ import java.util.List;
 import java.util.Map;
 
 
+@Api(tags = {"API-Resource"})
+@SwaggerDefinition(tags = {
+        @Tag(name = "Product-API-Resource", description = "Write description here")
+})
 @RestController
-@RequestMapping("/api")
+@RequestMapping(value = "/api")
 public class ApiAPI {
 
     private final ApiService apiService;

@@ -1,6 +1,7 @@
 com/kingfood/backend/gateway/uploads/UploadAPI.class
 com/kingfood/backend/gateway/commons/ApiAPI.class
 com/kingfood/backend/gateway/users/UserAPI.class
+com/kingfood/backend/gateway/orders/PaymentApi.class
 com/kingfood/backend/gateway/commons/RoleAPI.class
 com/kingfood/backend/gateway/orders/OrderAPI.class
 com/kingfood/backend/gateway/products/ProductAPI.class

@@ -16,7 +16,7 @@ public class OrderDetailsEntity extends BaseEntity {
     private double unitPrice;
     private int quantity;
     private double discount;
-    private double total;
+    private Double total;
 
 
     @ManyToOne(fetch = FetchType.LAZY)

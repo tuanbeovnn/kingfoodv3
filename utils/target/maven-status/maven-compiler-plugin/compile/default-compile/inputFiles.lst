@@ -17,6 +17,7 @@
 /Users/tuannguyen/IdeaProjects/kingfood/utils/src/main/java/com/kingfood/backend/validation/ValidationUtils.java
 /Users/tuannguyen/IdeaProjects/kingfood/utils/src/main/java/com/kingfood/backend/exceptions/CustomException.java
 /Users/tuannguyen/IdeaProjects/kingfood/utils/src/main/java/com/kingfood/backend/responseBuilder/ResponseEntityBuilder.java
+/Users/tuannguyen/IdeaProjects/kingfood/utils/src/main/java/com/kingfood/backend/exceptionsv2/ResourceNotFoundException.java
 /Users/tuannguyen/IdeaProjects/kingfood/utils/src/main/java/com/kingfood/backend/exceptionsv2/CustomExceptionHandler.java
 /Users/tuannguyen/IdeaProjects/kingfood/utils/src/main/java/com/kingfood/backend/build/BuildMapUtils.java
 /Users/tuannguyen/IdeaProjects/kingfood/utils/src/main/java/com/kingfood/backend/build/BuildQueryUtils.java
