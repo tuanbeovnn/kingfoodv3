@@ -14,9 +14,11 @@ import com.kingfood.backend.domains.entity.ProductEntity;
 import com.kingfood.backend.domains.request.OrderDetailRequest;
 import com.kingfood.backend.domains.response.OrderBuilderResponse;
 import com.kingfood.backend.domains.response.OrderResponse;
+import com.kingfood.backend.exceptions.CommonUtils;
+import com.kingfood.backend.exceptions.CustomException;
 import com.kingfood.backend.exceptionsv2.AppException;
 import com.kingfood.backend.exceptionsv2.ErrorCode;
-import com.kingfood.backend.exceptionsv2.ResourceNotFoundException;
+
 import com.kingfood.backend.order.OrderService;
 import com.kingfood.backend.securityconfig.oath2.service.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +45,7 @@ public class OrderServiceImpl implements OrderService {
     private static final String NOTIFY_URL = "https://callback.url/notify";
     private static final String RETURN_URL = "https://momo.vn/return";
     private static final String HMAC_SHA256 = "HmacSHA256";
+    private static final int MAX_PERCENTAGE = 100;
 
     @Value("${momo.partnerCode}")
     private String partnerCode;
@@ -67,69 +70,87 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public OrderResponse createNewOrder(OrderDTO orderDTO) {
+    public OrderResponse createOrder (OrderDTO orderDTO) {
         OrderEntity orderEntity = Converter.toModel(orderDTO, OrderEntity.class);
         orderEntity.setOrderDate(DateTimeUtils.getDateTimeNow());
-        orderEntity = orderRepository.save(orderEntity);
+        CustomerEntity customerEntity = customerRepository.findById(SecurityUtils.getPrincipal().getUserId()).get();
+        orderEntity.setCustomer(customerEntity);
+        List<ProductEntity> listProductsExists = validationProduct(orderDTO.getOrderDetailRequests());
         List<OrderDetailsEntity> orderDetailsEntities = new ArrayList<>();
         for (OrderDetailRequest orderDetailRequest : orderDTO.getOrderDetailRequests()) {
-            ProductEntity productEntity = productRepository.findById(orderDetailRequest.getProductId())
-                    .orElseThrow(() -> new AppException(ErrorCode.ID_NOT_FOUND));
-            validateOrderDetail(orderDetailRequest, productEntity);
-            OrderDetailsEntity orderDetailsEntity = new OrderDetailsEntity();
-            double percentage = 100 - productEntity.getDiscount();
-            double total = percentage * (productEntity.getPrice() * orderDetailRequest.getQuantity()) / 100;
-            orderDetailsEntity.setTotal(total);
-            orderDetailsEntity.setOrder(orderEntity);
-            orderDetailsEntity.setProduct(productEntity);
-            orderDetailsEntity.setQuantity(orderDetailRequest.getQuantity());
-            orderDetailsEntity.setUnitPrice(productEntity.getPrice());
-            orderDetailsEntity.setDiscount(productEntity.getDiscount());
-            orderDetailsEntity = orderDetailRepository.save(orderDetailsEntity);
-            orderDetailsEntities.add(orderDetailsEntity);
-            int quantityLeft = productEntity.getQuantity() - orderDetailRequest.getQuantity();
-            productEntity.setQuantity(quantityLeft);
-            productEntity = productRepository.save(productEntity);
+            ProductEntity productEntity = listProductsExists.stream().filter(e -> e.getId()
+                    .equals(orderDetailRequest.getProductId()))
+                    .findAny().orElse(null);
+            if (Objects.nonNull(productEntity)) {
+                validateOrderDetail(orderDetailRequest, productEntity);
+                OrderDetailsEntity orderDetailsEntity = new OrderDetailsEntity();
+                double percentage = MAX_PERCENTAGE - productEntity.getDiscount();
+                double total = percentage * (productEntity.getPrice() * orderDetailRequest.getQuantity()) / MAX_PERCENTAGE;
+                orderDetailsEntity.setTotal(total);
+                orderDetailsEntity.setOrder(orderEntity);
+                orderDetailsEntity.setProduct(productEntity);
+                orderDetailsEntity.setQuantity(orderDetailRequest.getQuantity());
+                orderDetailsEntity.setUnitPrice(productEntity.getPrice());
+                orderDetailsEntity.setDiscount(productEntity.getDiscount());
+                orderDetailsEntities.add(orderDetailsEntity);
+                int quantityLeft = productEntity.getQuantity() - orderDetailRequest.getQuantity();
+                productEntity.setQuantity(quantityLeft);
+                productEntity = productRepository.save(productEntity);
+            }
         }
         orderEntity.setOrderDetails(orderDetailsEntities);
+        orderEntity = orderRepository.save(orderEntity);
         return Converter.toModel(orderEntity, OrderResponse.class);
     }
 
     @Override
     @Transactional
-    public OrderResponse createOrder(OrderDTO orderDTO) {
-        OrderEntity orderEntity = Converter.toModel(orderDTO, OrderEntity.class);
-        orderEntity.setOrderDate(DateTimeUtils.getDateTimeNow());
-        OrderEntity finalOrderEntity = orderEntity;
-        List<OrderDetailsEntity> orderDetailsEntities = orderDTO.getOrderDetailRequests().stream().map(item -> {
-            OrderDetailsEntity insertData = new OrderDetailsEntity();
-            ProductEntity productEntity = productRepository.findById(item.getProductId())
-                    .orElseThrow(() -> new AppException(ErrorCode.ID_NOT_FOUND));
-            validateOrderDetail(item, productEntity);
-            double percentage = 100 - productEntity.getDiscount();
-            double total = percentage * (productEntity.getPrice() * item.getQuantity()) / 100;
-            insertData.setTotal(total);
-            insertData.setOrder(finalOrderEntity);
-            insertData.setProduct(productEntity);
-            insertData.setQuantity(item.getQuantity());
-            insertData.setUnitPrice(productEntity.getPrice());
-            insertData.setDiscount(productEntity.getDiscount());
-            insertData = orderDetailRepository.save(insertData);
-            int quantityLeft = productEntity.getQuantity() - item.getQuantity();
-            productEntity.setQuantity(quantityLeft);
-            productEntity = productRepository.save(productEntity);
-            return insertData;
-        }).collect(Collectors.toList());
-        finalOrderEntity.setOrderDetails(orderDetailsEntities);
-        CustomerEntity customerEntity = customerRepository.findById(SecurityUtils.getPrincipal().getUserId()).get();
-        orderEntity.setCustomer(customerEntity);
-        orderEntity = orderRepository.save(orderEntity);
-        return Converter.toModel(orderEntity, OrderResponse.class);
+    public OrderResponse createNewOrder(OrderDTO orderDTO) {
+//        OrderEntity orderEntity = Converter.toModel(orderDTO, OrderEntity.class);
+//        orderEntity.setOrderDate(DateTimeUtils.getDateTimeNow());
+//        OrderEntity finalOrderEntity = orderEntity;
+//        List<ProductEntity> listProductsExists = validationProduct(orderDTO.getOrderDetailRequests()
+//                .stream()
+//                .map(OrderDetailRequest::getProductId)
+//                .collect(Collectors.toList()));
+//        List<OrderDetailsEntity> orderDetailsEntities = orderDTO.getOrderDetailRequests().stream().map(item -> {
+//            OrderDetailsEntity insertData = new OrderDetailsEntity();
+//            ProductEntity productEntity = listProductsExists.stream().filter(e -> e.getId().equals(item.getProductId())).findAny().orElse(null);
+//            assert productEntity != null;
+//            validateOrderDetail(item, productEntity);
+//                double percentage = MAX_PERCENTAGE - productEntity.getDiscount();
+//                double total = percentage * (productEntity.getPrice() * item.getQuantity()) / MAX_PERCENTAGE;
+//                insertData.setTotal(total);
+//                insertData.setOrder(finalOrderEntity);
+//                insertData.setProduct(productEntity);
+//                insertData.setQuantity(item.getQuantity());
+//                insertData.setUnitPrice(productEntity.getPrice());
+//                insertData.setDiscount(productEntity.getDiscount());
+//                insertData = orderDetailRepository.save(insertData);
+//                int quantityLeft = productEntity.getQuantity() - item.getQuantity();
+//                productEntity.setQuantity(quantityLeft);
+//                productEntity = productRepository.save(productEntity);
+//                return insertData;
+//
+//        }).collect(Collectors.toList());
+//        finalOrderEntity.setOrderDetails(orderDetailsEntities);
+//        CustomerEntity customerEntity = customerRepository.findById(SecurityUtils.getPrincipal().getUserId()).get();
+//        orderEntity.setCustomer(customerEntity);
+//        orderEntity = orderRepository.save(orderEntity);
+        return null;
     }
+
+    private List<ProductEntity> validationProduct(List<OrderDetailRequest> orderDetailRequests) {
+        return productRepository.findByIdIn(orderDetailRequests
+                .stream()
+                .map(OrderDetailRequest::getProductId)
+                .collect(Collectors.toList()));
+    }
+
 
     private void validateOrderDetail(OrderDetailRequest orderDetailRequest, ProductEntity productEntity) {
         if (orderDetailRequest.getQuantity() > productEntity.getQuantity()) {
-            throw new AppException(ErrorCode.EMPTY_PRODUCT);
+            throw new CustomException(String.format("We have only %d",productEntity.getQuantity()), CommonUtils.putError("",""));
         }
     }
 
@@ -144,9 +165,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderBuilderResponse findOrderById(Long id) {
-        OrderEntity orderEntity = orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format("Not found order by id %s.", id)));
+        OrderEntity orderEntity = orderRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.ID_NOT_FOUND));
         final String extraData = EMPTY;
-        final String amount = orderEntity.getOrderDetails().stream().mapToLong(item -> item.getTotal().longValue()).sum() + EMPTY;
+        final String amount = String.valueOf(orderEntity.getOrderDetails().stream().mapToLong(item -> item.getTotal().longValue()).sum());
         final String notifyUrl = NOTIFY_URL;
         final String orderId = UUID.randomUUID().toString();
         final String orderInfo = String.format("Customer needs to pay %s for ordering.", amount);

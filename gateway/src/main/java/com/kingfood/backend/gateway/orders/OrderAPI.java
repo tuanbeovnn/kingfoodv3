@@ -5,7 +5,7 @@ import com.kingfood.backend.domains.dto.OrderDTO;
 import com.kingfood.backend.domains.response.BaseRestResponse;
 import com.kingfood.backend.domains.response.OrderBuilderResponse;
 import com.kingfood.backend.domains.response.OrderResponse;
-import com.kingfood.backend.exceptionsv2.ResourceNotFoundException;
+import com.kingfood.backend.exceptionsv2.AppException;
 import com.kingfood.backend.order.OrderService;
 import com.kingfood.backend.responseBuilder.ResponseEntityBuilder;
 import io.swagger.annotations.Api;
@@ -42,7 +42,7 @@ public class OrderAPI {
         try {
             OrderBuilderResponse response = orderService.findOrderById(orderId);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (ResourceNotFoundException exception) {
+        } catch (AppException exception) {
             BaseRestResponse response = BaseRestResponse.builder()
                     .httpStatus(HttpStatus.NOT_FOUND)
                     .success(false)

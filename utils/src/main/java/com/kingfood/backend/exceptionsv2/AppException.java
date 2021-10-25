@@ -30,4 +30,8 @@ public class AppException extends RuntimeException {
         this.message = code.message();
         this.status = code.status();
     }
+
+    public AppException(String message) {
+        super(message);
+    }
 }

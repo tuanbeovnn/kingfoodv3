@@ -10,5 +10,5 @@ import java.util.Map;
 
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
-
+    List<ProductEntity> findByIdIn(List<Long> productIds);
 }
