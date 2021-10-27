@@ -61,7 +61,7 @@ public class ApiAPI {
      * @param update
      * @return
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateApiPattern(@PathVariable("id") Long id, @RequestBody ApiDTO update) {
         update.setId(id);
         ApiDTO response = apiService.updateApiSystem(update);
@@ -81,6 +81,16 @@ public class ApiAPI {
     @RequestMapping(value = "" , method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteApiPattern(@RequestParam("ids") List<Long> ids) {
         apiService.delete(ids);
+        gatewayInterceptor.initData();
+        return ResponseEntityBuilder.getBuilder()
+                .setMessage(AppConstants.MESSAGE.API_API.DELETE_SUCCESS)
+                .build();
+    }
+
+
+    @RequestMapping(value = "/remove/{id}" , method = RequestMethod.DELETE)
+    public ResponseEntity<?> removeApiPattern(@PathVariable Long id) {
+        apiService.deleteById(id);
         gatewayInterceptor.initData();
         return ResponseEntityBuilder.getBuilder()
                 .setMessage(AppConstants.MESSAGE.API_API.DELETE_SUCCESS)

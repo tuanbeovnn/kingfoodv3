@@ -106,37 +106,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderResponse createNewOrder(OrderDTO orderDTO) {
-//        OrderEntity orderEntity = Converter.toModel(orderDTO, OrderEntity.class);
-//        orderEntity.setOrderDate(DateTimeUtils.getDateTimeNow());
-//        OrderEntity finalOrderEntity = orderEntity;
-//        List<ProductEntity> listProductsExists = validationProduct(orderDTO.getOrderDetailRequests()
-//                .stream()
-//                .map(OrderDetailRequest::getProductId)
-//                .collect(Collectors.toList()));
-//        List<OrderDetailsEntity> orderDetailsEntities = orderDTO.getOrderDetailRequests().stream().map(item -> {
-//            OrderDetailsEntity insertData = new OrderDetailsEntity();
-//            ProductEntity productEntity = listProductsExists.stream().filter(e -> e.getId().equals(item.getProductId())).findAny().orElse(null);
-//            assert productEntity != null;
-//            validateOrderDetail(item, productEntity);
-//                double percentage = MAX_PERCENTAGE - productEntity.getDiscount();
-//                double total = percentage * (productEntity.getPrice() * item.getQuantity()) / MAX_PERCENTAGE;
-//                insertData.setTotal(total);
-//                insertData.setOrder(finalOrderEntity);
-//                insertData.setProduct(productEntity);
-//                insertData.setQuantity(item.getQuantity());
-//                insertData.setUnitPrice(productEntity.getPrice());
-//                insertData.setDiscount(productEntity.getDiscount());
-//                insertData = orderDetailRepository.save(insertData);
-//                int quantityLeft = productEntity.getQuantity() - item.getQuantity();
-//                productEntity.setQuantity(quantityLeft);
-//                productEntity = productRepository.save(productEntity);
-//                return insertData;
-//
-//        }).collect(Collectors.toList());
-//        finalOrderEntity.setOrderDetails(orderDetailsEntities);
-//        CustomerEntity customerEntity = customerRepository.findById(SecurityUtils.getPrincipal().getUserId()).get();
-//        orderEntity.setCustomer(customerEntity);
-//        orderEntity = orderRepository.save(orderEntity);
         return null;
     }
 

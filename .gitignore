@@ -1,0 +1,13 @@
+/utils/target
+/users-service/target
+/security/target
+/gateway/target
+/domains/target
+/db-provider/target
+/commons/target
+/application/target
+/.idea
+/.iml
+*.iml
+*.log
+target

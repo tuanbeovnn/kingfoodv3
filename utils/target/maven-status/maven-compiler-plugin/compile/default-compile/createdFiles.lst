@@ -9,6 +9,7 @@ com/kingfood/backend/responseBuilder/ResponseEntityBuilder.class
 com/kingfood/backend/exceptions/ErrorConstants.class
 com/kingfood/backend/constants/Constants$ExtensionBelong.class
 com/kingfood/backend/constants/Constants$Roles.class
+com/kingfood/backend/exceptions/GlobalDefaultExceptionHandler.class
 com/kingfood/backend/constants/AppConstant$statusSendFile.class
 com/kingfood/backend/exceptions/CommonUtils.class
 com/kingfood/backend/constants/Constants$SearchOptionEnum.class

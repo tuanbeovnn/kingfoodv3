@@ -15,4 +15,5 @@ public interface ApiService {
     void delete(List<Long> ids);
     PageList<ApiDTO> getAll(Pageable pageable);
     ApiDTO findOne(Long id);
+    void deleteById(Long id);
 }

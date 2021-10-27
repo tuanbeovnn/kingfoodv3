@@ -100,7 +100,7 @@ public class ApiServiceImpl implements ApiService {
     @Override
     public PageList<ApiDTO> getAll(Pageable pageable) {
         PageList<ApiDTO> result = new PageList<>();
-        List<ApiEntity> apiEntities = apiRepository.findAll(pageable).toList();
+        List<ApiEntity> apiEntities = apiRepository.findAllByOrderByIdDesc(pageable);
         List<ApiDTO> apis = new ArrayList<>();
         for (ApiEntity apiEntity : apiEntities) {
             ApiDTO apiDTO = Converter.toModel(apiEntity, ApiDTO.class);
@@ -108,11 +108,13 @@ public class ApiServiceImpl implements ApiService {
             apiDTO.setRoleIds(roleApis);
             apis.add(apiDTO);
         }
-        result.setCurrentPage(pageable.getPageNumber());
-        result.setTotal(apiRepository.count());
+        result.setCurrentPage(pageable.getPageNumber() + 1);
+        long count = apiRepository.count();
+        result.setTotal(count);
         result.setList(apis);
         result.setPageSize(pageable.getPageSize());
         result.setSuccess(true);
+        result.setTotalPage((int) Math.ceil((double) Integer.parseInt(Long.toString(count)) / pageable.getPageSize()));
         return result;
     }
 
@@ -122,10 +124,10 @@ public class ApiServiceImpl implements ApiService {
         return Converter.toModel(entity , ApiDTO.class);
     }
 
-//    private void validateRequired(ApiDTO input) {
-//        Map<String, Object> validateResult = ValidateUtils.validateRequired(input);
-//        if (!validateResult.isEmpty()) {
-//            throw new CustomException(AppConstants.MESSAGE.ERROR.FAILED_CREATE, validateResult);
-//        }
-//    }
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        apiRepository.deleteById(id);
+    }
+
 }
