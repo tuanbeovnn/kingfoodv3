@@ -70,43 +70,37 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public OrderResponse createOrder (OrderDTO orderDTO) {
+    public OrderResponse createOrder(OrderDTO orderDTO) {
         OrderEntity orderEntity = Converter.toModel(orderDTO, OrderEntity.class);
         orderEntity.setOrderDate(DateTimeUtils.getDateTimeNow());
         CustomerEntity customerEntity = customerRepository.findById(SecurityUtils.getPrincipal().getUserId()).get();
         orderEntity.setCustomer(customerEntity);
         List<ProductEntity> listProductsExists = validationProduct(orderDTO.getOrderDetailRequests());
+        List<Long> existingProductIds = listProductsExists.stream().map(ProductEntity::getId).collect(Collectors.toList());
         List<OrderDetailsEntity> orderDetailsEntities = new ArrayList<>();
         for (OrderDetailRequest orderDetailRequest : orderDTO.getOrderDetailRequests()) {
-            ProductEntity productEntity = listProductsExists.stream().filter(e -> e.getId()
-                    .equals(orderDetailRequest.getProductId()))
-                    .findAny().orElse(null);
-            if (Objects.nonNull(productEntity)) {
-                validateOrderDetail(orderDetailRequest, productEntity);
+            Optional<ProductEntity> productEntity = listProductsExists
+                    .stream().filter(product -> Objects.equals(product.getId(), orderDetailRequest.getProductId())).findFirst();
+            if (productEntity.isPresent()) {
+                validateOrderDetail(orderDetailRequest, productEntity.get());
                 OrderDetailsEntity orderDetailsEntity = new OrderDetailsEntity();
-                double percentage = MAX_PERCENTAGE - productEntity.getDiscount();
-                double total = percentage * (productEntity.getPrice() * orderDetailRequest.getQuantity()) / MAX_PERCENTAGE;
+                double percentage = MAX_PERCENTAGE - productEntity.get().getDiscount();
+                double total = percentage * (productEntity.get().getPrice() * orderDetailRequest.getQuantity()) / MAX_PERCENTAGE;
                 orderDetailsEntity.setTotal(total);
                 orderDetailsEntity.setOrder(orderEntity);
-                orderDetailsEntity.setProduct(productEntity);
+                orderDetailsEntity.setProduct(productEntity.get());
                 orderDetailsEntity.setQuantity(orderDetailRequest.getQuantity());
-                orderDetailsEntity.setUnitPrice(productEntity.getPrice());
-                orderDetailsEntity.setDiscount(productEntity.getDiscount());
+                orderDetailsEntity.setUnitPrice(productEntity.get().getPrice());
+                orderDetailsEntity.setDiscount(productEntity.get().getDiscount());
                 orderDetailsEntities.add(orderDetailsEntity);
-                int quantityLeft = productEntity.getQuantity() - orderDetailRequest.getQuantity();
-                productEntity.setQuantity(quantityLeft);
-                productEntity = productRepository.save(productEntity);
+                int quantityLeft = productEntity.get().getQuantity() - orderDetailRequest.getQuantity();
+                productEntity.get().setQuantity(quantityLeft);
+                productRepository.save(productEntity.get());
             }
         }
         orderEntity.setOrderDetails(orderDetailsEntities);
         orderEntity = orderRepository.save(orderEntity);
         return Converter.toModel(orderEntity, OrderResponse.class);
-    }
-
-    @Override
-    @Transactional
-    public OrderResponse createNewOrder(OrderDTO orderDTO) {
-        return null;
     }
 
     private List<ProductEntity> validationProduct(List<OrderDetailRequest> orderDetailRequests) {
@@ -119,7 +113,7 @@ public class OrderServiceImpl implements OrderService {
 
     private void validateOrderDetail(OrderDetailRequest orderDetailRequest, ProductEntity productEntity) {
         if (orderDetailRequest.getQuantity() > productEntity.getQuantity()) {
-            throw new CustomException(String.format("We have only %d",productEntity.getQuantity()), CommonUtils.putError("",""));
+            throw new CustomException(String.format("We have only %d", productEntity.getQuantity()), CommonUtils.putError("", ""));
         }
     }
 

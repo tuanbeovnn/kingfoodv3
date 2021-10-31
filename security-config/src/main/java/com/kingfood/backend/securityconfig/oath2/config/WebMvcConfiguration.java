@@ -45,13 +45,13 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
      *
      * @param
      */
-    @Override
-    public void addInterceptors(final InterceptorRegistry registry) {
-        registry.addInterceptor(gatewayInterceptor).addPathPatterns("/**")
-                .excludePathPatterns("/v2/api-docs", "/configuration/ui",
-                        "/swagger-resources/**", "/configuration/**", "/swagger-ui.html"
-                        , "/webjars/**", "/csrf", "/", "/error");
-    }
+//    @Override
+//    public void addInterceptors(final InterceptorRegistry registry) {
+//        registry.addInterceptor(gatewayInterceptor).addPathPatterns("/**")
+//                .excludePathPatterns("/v2/api-docs", "/configuration/ui",
+//                        "/swagger-resources/**", "/configuration/**", "/swagger-ui.html"
+//                        , "/webjars/**", "/csrf", "/", "/error");
+//    }
 
     @Bean
     public ViewResolver viewResolver() {

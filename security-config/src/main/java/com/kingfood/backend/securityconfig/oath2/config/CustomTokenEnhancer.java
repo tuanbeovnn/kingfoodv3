@@ -36,7 +36,7 @@ public class CustomTokenEnhancer extends JwtAccessTokenConverter {
         DefaultOAuth2AccessToken customerAccessToken = new DefaultOAuth2AccessToken(accessToken);
         customerAccessToken.setAdditionalInformation(info);
         if (roles.contains("ROLE_ADMIN") || roles.contains("ROLE_USER")) {
-            customerAccessToken.setExpiration(new Date(System.currentTimeMillis() + (( 30 * 60 * 1000))));
+            customerAccessToken.setExpiration(new Date(System.currentTimeMillis() + (( 30 * 1000))));
         } else if (roles.contains("ROLE_SUPER_ADMIN")) {
             customerAccessToken.setExpiration(new Date(System.currentTimeMillis() + (AppConstant.O2Constants.ACCESS_TOKEN_VALIDITY__SUPER_MILLISECONDS * 1 * 60 * 60 * 1000)));
         }

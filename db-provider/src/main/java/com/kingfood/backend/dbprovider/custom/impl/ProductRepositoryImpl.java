@@ -29,6 +29,7 @@ public class ProductRepositoryImpl extends RepositoryCustomUtil<ProductEntity> i
             params.put("code", BuildQueryUtils.formatLikeStringSql(params.get("code").toString()));
         }
         sql.append("    AND p.status like 'ACTIVE'");
+        sql.append("ORDER BY p.id DESC");
         return this.getResultList(sql.toString(), ProductEntity.class, params, pageable);
     }
 

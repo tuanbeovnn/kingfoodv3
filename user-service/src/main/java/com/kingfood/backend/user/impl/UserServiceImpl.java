@@ -45,9 +45,9 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserResponse createUser(UserRequest userRequest) {
         UserEntity userEntity = userRepository.findOneByUserName(userRequest.getUserName());
-        if (userEntity != null) {
-            throw new CustomException("User exists", CommonUtils.putError("username", ""));
-        }
+//        if (userEntity != null) {
+//            throw new CustomException("User exists", CommonUtils.putError("username", ""));
+//        }
         List<RoleEntity> roleEntities = roleRepository.findByIdIn(userRequest.getRoleIds().stream().map(e -> e).collect(Collectors.toList()));
         userEntity = Converter.toModel(userRequest, UserEntity.class);
         userEntity.setRoles(roleEntities);

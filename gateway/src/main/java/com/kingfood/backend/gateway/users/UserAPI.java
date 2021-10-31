@@ -6,6 +6,8 @@ import com.kingfood.backend.domains.request.UserRequest;
 import com.kingfood.backend.domains.response.UserResponse;
 import com.kingfood.backend.responseBuilder.ResponseEntityBuilder;
 import com.kingfood.backend.user.UserService;
+import com.kingfood.backend.validation.DefaultSignUpValidationService;
+import com.kingfood.backend.validation.SignUpValidationService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +32,12 @@ public class UserAPI {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SignUpValidationService signUpValidationService;
+
     @RequestMapping(value = "/admin/authentication/register", method = RequestMethod.POST)
-    public ResponseEntity<?> register(@RequestBody @Valid UserRequest userRequest) {
+    public ResponseEntity<?> register(@RequestBody UserRequest userRequest) {
+        signUpValidationService.validate(userRequest);
         UserResponse output = userService.createUser(userRequest);
         return ResponseEntityBuilder.getBuilder().setMessage("Create User Successfully").setDetails(output).build();
     }

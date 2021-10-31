@@ -75,6 +75,7 @@ public class ProductServiceImpl implements ProductService {
         pageList.setCurrentPage(pageable.getPageNumber());
         pageList.setSuccess(true);
         pageList.setTotal(count);
+        pageList.setTotalPage((int) Math.ceil((double) Integer.parseInt(Long.toString(count)) / pageable.getPageSize()));
         return pageList;
     }
 
