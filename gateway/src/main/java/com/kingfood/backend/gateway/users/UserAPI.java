@@ -2,8 +2,15 @@ package com.kingfood.backend.gateway.users;
 
 
 
+import com.kingfood.backend.domains.dto.EmailDto;
+import com.kingfood.backend.domains.dto.ForgotPasswordDto;
+import com.kingfood.backend.domains.redis.ForgotPassWordRedisDto;
+import com.kingfood.backend.domains.redis.repository.ForgotPasswordRedisRepository;
+import com.kingfood.backend.domains.request.ChangePasswordRequest;
 import com.kingfood.backend.domains.request.UserRequest;
 import com.kingfood.backend.domains.response.UserResponse;
+import com.kingfood.backend.exceptionsv2.AppException;
+import com.kingfood.backend.exceptionsv2.ErrorCode;
 import com.kingfood.backend.responseBuilder.ResponseEntityBuilder;
 import com.kingfood.backend.user.UserService;
 import com.kingfood.backend.validation.DefaultSignUpValidationService;
@@ -35,6 +42,9 @@ public class UserAPI {
     @Autowired
     private SignUpValidationService signUpValidationService;
 
+    @Autowired
+    private ForgotPasswordRedisRepository forgotPasswordRedisRepository;
+
     @RequestMapping(value = "/admin/authentication/register", method = RequestMethod.POST)
     public ResponseEntity<?> register(@RequestBody UserRequest userRequest) {
         signUpValidationService.validate(userRequest);
@@ -42,28 +52,31 @@ public class UserAPI {
         return ResponseEntityBuilder.getBuilder().setMessage("Create User Successfully").setDetails(output).build();
     }
 
-//    @RequestMapping(value = "/authentication/forgot-password", method = RequestMethod.POST)
-//    public ResponseEntity<?> forgotPassword(@RequestBody ForgotPasswordDto email) throws MessagingException {
-//        userService.forgotPassword(email);
-//        return ResponseEntityBuilder.getBuilder().setMessage("Email has been sent already !").build();
-//    }
-//
-//    @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
-//    public ResponseEntity changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
-//        if (userService.changePassword(changePasswordRequest)) {
-//            return ResponseEntityBuilder.getBuilder().setMessage("Your password had been changed successfully").build();
-//        } else {
-//            return ResponseEntityBuilder.getBuilder().setMessage("Could not change your passoword").build();
-//        }
-//    }
-//
-//    @RequestMapping(value = "/user/update-avatar", method = RequestMethod.PUT)
-//    public ResponseEntity<?> uploadImg(@RequestPart(name = "files", required = true) MultipartFile file) {
-//        if (userService.changeInfo(file)) {
-//            return ResponseEntityBuilder.getBuilder().setMessage("Change avatar successfully").build();
-//        }else {
-//            return ResponseEntityBuilder.getBuilder().setMessage("Could not change your avatar").build();
-//        }
-//    }
+    @RequestMapping(value = "/authentication/forgot-password", method = RequestMethod.POST)
+    public ResponseEntity<?> forgotPassword(@RequestBody ForgotPasswordDto email) throws MessagingException {
+        userService.forgotPassword(email);
+        return ResponseEntityBuilder.getBuilder().setMessage("Email has been sent already !").build();
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/authentication/reset-password", method = RequestMethod.GET)
+    public ResponseEntity<?> resetPassword(@ModelAttribute EmailDto emailModel) throws Throwable {
+        ForgotPassWordRedisDto forgotPassWordRedisModel = forgotPasswordRedisRepository.findByEmail(emailModel.getEmail()).orElseThrow(() -> {
+            throw new AppException(ErrorCode.ACTIVED_ACCOUNT);
+        });
+        userService.resetPassword(emailModel);
+        forgotPasswordRedisRepository.delete(forgotPassWordRedisModel);
+        return ResponseEntityBuilder.getBuilder().setMessage("Your password has been reset and sent to your email").build();
+    }
+
+    @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
+        if (userService.changePassword(changePasswordRequest)) {
+            return ResponseEntityBuilder.getBuilder().setMessage("Your password had been changed successfully").build();
+        } else {
+            return ResponseEntityBuilder.getBuilder().setMessage("Could not change your passoword").build();
+        }
+    }
 
 }

@@ -17,12 +17,17 @@ import com.kingfood.backend.pageable.PageList;
 import com.kingfood.backend.service.ProductService;
 import com.kingfood.backend.validation.ValidationUtils;
 
+import org.apache.commons.lang3.reflect.Typed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +45,9 @@ public class ProductServiceImpl implements ProductService {
     private CategoryRepository categoryRepository;
     @Autowired
     private ProductRepositoryCustom productRepositoryCustom;
+    @Autowired
+    private EntityManager entityManager;
+
 
     @Override
     @Transactional
@@ -75,7 +83,7 @@ public class ProductServiceImpl implements ProductService {
         pageList.setCurrentPage(pageable.getPageNumber());
         pageList.setSuccess(true);
         pageList.setTotal(count);
-        pageList.setTotalPage((int) Math.ceil((double) Integer.parseInt(Long.toString(count)) / pageable.getPageSize()));
+        pageList.setTotalPage((int) Math.ceil(count * 1.0 / pageable.getPageSize()));
         return pageList;
     }
 
@@ -92,4 +100,46 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity productEntity = productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.ID_NOT_FOUND));
         return Converter.toModel(productEntity, ProductResponse.class);
     }
+
+    @Override
+    public PageList<ProductResponse> searchProduct(ProductRequest productRequest, Long categoryId, Pageable pageable) {
+        PageList<ProductResponse> result = new PageList<>();
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<ProductEntity> productEntityCriteriaQuery = criteriaBuilder.createQuery(ProductEntity.class);
+        Root<ProductEntity> productEntityRoot = productEntityCriteriaQuery.from(ProductEntity.class);
+        Join<Object, Object> joinCategory = productEntityRoot.join("category", JoinType.INNER);
+        String name = productRequest.getProductName();
+        List<Predicate> searchCritial = new ArrayList<>();
+        searchCrital(searchCritial, categoryId, criteriaBuilder,name, joinCategory, productEntityRoot);
+        productEntityCriteriaQuery.select(productEntityRoot).where(searchCritial.toArray(new Predicate[0]));
+        TypedQuery<ProductEntity> typedQuery = entityManager.createQuery(productEntityCriteriaQuery);
+        List<ProductResponse> lstResponse = Converter.toList(typedQuery.getResultList(), ProductResponse.class);
+        result.setList(lstResponse);
+        result.setPageSize(pageable.getPageSize());
+        result.setCurrentPage(pageable.getPageNumber());
+        result.setSuccess(true);
+        long count = countProduct(criteriaBuilder, searchCritial);
+        result.setTotal(count);
+        result.setTotalPage((int) Math.ceil(count * 1.0 / pageable.getPageSize()));
+        return result;
+    }
+
+    private void searchCrital(List<Predicate> searchCritial, Long categoryId, CriteriaBuilder criteriaBuilder,
+                             String name,Join<Object, Object> joinCategory, Root<ProductEntity> productEntityRoot ){
+        searchCritial.add(criteriaBuilder.like(productEntityRoot.get("status"), "ACTIVE"));
+        if (categoryId != null) {
+            searchCritial.add(criteriaBuilder.equal(joinCategory.get("id"), categoryId));
+        }
+        if (!"".equals(name)) {// note: constant equal, Do not use variable equal with constant.
+            searchCritial.add(criteriaBuilder.like(productEntityRoot.get("productName"), "%" + name + "%"));
+        }
+    }
+
+    private long countProduct(CriteriaBuilder criteriaBuilder, List<Predicate> searchCritial){
+        CriteriaQuery<Long> cq = criteriaBuilder.createQuery(Long.class);
+        cq.select(criteriaBuilder.count(cq.from(ProductEntity.class)));
+        cq.where(searchCritial.toArray(new Predicate[0]));
+        return entityManager.createQuery(cq).getSingleResult();
+    }
+
 }

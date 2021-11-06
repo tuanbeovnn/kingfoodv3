@@ -17,4 +17,6 @@ public interface ProductService {
 
     ProductResponse findById(Long productId);
 
+    PageList<ProductResponse> searchProduct(ProductRequest productRequest,Long categoryId, Pageable pageable);
+
 }

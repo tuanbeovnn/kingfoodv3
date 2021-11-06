@@ -1,4 +1,5 @@
 package com.kingfood.backend.gateway.products;
+
 import com.google.gson.Gson;
 import com.kingfood.backend.FormUtils.FormUtils;
 import com.kingfood.backend.domains.request.ProductRequest;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.util.Map;
 
 @Api(tags = {"Product-Resource"})
@@ -73,4 +75,23 @@ public class ProductAPI {
         ProductResponse productResponse = productService.findById(productId);
         return ResponseEntityBuilder.getBuilder().setDetails(productResponse).setMessage("Find product successfully").build();
     }
+
+    /**
+     * z
+     *
+     * @param model
+     * @return
+     */
+
+    @RequestMapping(value = "/product/search", method = RequestMethod.GET)
+    public ResponseEntity<?> search(@RequestParam Map<String, String> model, Long categoryId) {
+        Pageable pageable = FormUtils.toPageable(model);
+        ProductRequest filmSearchRequestInput = FormUtils.toModel(ProductRequest.class, model);
+        PageList<ProductResponse> lstOutput = productService.searchProduct(filmSearchRequestInput, categoryId, pageable);
+        return ResponseEntityBuilder.getBuilder()
+                .setDetails(lstOutput)
+                .setMessage("GET LIST SUCCESSFULLY")
+                .build();
+    }
+
 }
