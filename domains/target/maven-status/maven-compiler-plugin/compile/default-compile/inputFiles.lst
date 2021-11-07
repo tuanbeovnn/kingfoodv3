@@ -1,4 +1,5 @@
 /Users/tuannguyen/IdeaProjects/kingfood/domains/src/main/java/com/kingfood/backend/domains/entity/CustomerEntity.java
+/Users/tuannguyen/IdeaProjects/kingfood/domains/src/main/java/com/kingfood/backend/domains/request/ChangePasswordRequest.java
 /Users/tuannguyen/IdeaProjects/kingfood/domains/src/main/java/com/kingfood/backend/domains/entity/CategoryEntity.java
 /Users/tuannguyen/IdeaProjects/kingfood/domains/src/main/java/com/kingfood/backend/domains/response/UserResponse.java
 /Users/tuannguyen/IdeaProjects/kingfood/domains/src/main/java/com/kingfood/backend/domains/entity/ProductEntity.java
@@ -10,9 +11,11 @@
 /Users/tuannguyen/IdeaProjects/kingfood/domains/src/main/java/com/kingfood/backend/domains/entity/UserEntity.java
 /Users/tuannguyen/IdeaProjects/kingfood/domains/src/main/java/com/kingfood/backend/domains/dto/ProductDTO.java
 /Users/tuannguyen/IdeaProjects/kingfood/domains/src/main/java/com/kingfood/backend/domains/entity/BaseEntity.java
+/Users/tuannguyen/IdeaProjects/kingfood/domains/src/main/java/com/kingfood/backend/domains/dto/EmailDto.java
 /Users/tuannguyen/IdeaProjects/kingfood/domains/src/main/java/com/kingfood/backend/domains/response/ProductProfileResponse.java
 /Users/tuannguyen/IdeaProjects/kingfood/domains/src/main/java/com/kingfood/backend/domains/response/CategoryResponse.java
 /Users/tuannguyen/IdeaProjects/kingfood/domains/src/main/java/com/kingfood/backend/domains/entity/OrderDetailsEntity.java
+/Users/tuannguyen/IdeaProjects/kingfood/domains/src/main/java/com/kingfood/backend/domains/dto/ForgotPasswordDto.java
 /Users/tuannguyen/IdeaProjects/kingfood/domains/src/main/java/com/kingfood/backend/domains/response/BaseRestResponse.java
 /Users/tuannguyen/IdeaProjects/kingfood/domains/src/main/java/com/kingfood/backend/domains/request/PaymentRequest.java
 /Users/tuannguyen/IdeaProjects/kingfood/domains/src/main/java/com/kingfood/backend/domains/entity/RoleEntity.java
@@ -24,7 +27,10 @@
 /Users/tuannguyen/IdeaProjects/kingfood/domains/src/main/java/com/kingfood/backend/domains/request/UserRequest.java
 /Users/tuannguyen/IdeaProjects/kingfood/domains/src/main/java/com/kingfood/backend/domains/request/CategoryRequest.java
 /Users/tuannguyen/IdeaProjects/kingfood/domains/src/main/java/com/kingfood/backend/domains/request/OrderDetailRequest.java
+/Users/tuannguyen/IdeaProjects/kingfood/domains/src/main/java/com/kingfood/backend/domains/dto/ValidateNotNullResultDto.java
 /Users/tuannguyen/IdeaProjects/kingfood/domains/src/main/java/com/kingfood/backend/domains/response/ProductResponse.java
+/Users/tuannguyen/IdeaProjects/kingfood/domains/src/main/java/com/kingfood/backend/domains/redis/repository/ForgotPasswordRedisRepository.java
+/Users/tuannguyen/IdeaProjects/kingfood/domains/src/main/java/com/kingfood/backend/domains/redis/ForgotPassWordRedisDto.java
 /Users/tuannguyen/IdeaProjects/kingfood/domains/src/main/java/com/kingfood/backend/domains/dto/OrderDTO.java
 /Users/tuannguyen/IdeaProjects/kingfood/domains/src/main/java/com/kingfood/backend/domains/dto/AbstractDTO.java
 /Users/tuannguyen/IdeaProjects/kingfood/domains/src/main/java/com/kingfood/backend/domains/response/CustomerUserResponse.java

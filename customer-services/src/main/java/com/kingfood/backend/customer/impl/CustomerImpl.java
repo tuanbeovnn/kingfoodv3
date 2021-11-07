@@ -22,6 +22,7 @@ import com.kingfood.backend.exceptions.CustomException;
 import com.kingfood.backend.exceptionsv2.AppException;
 import com.kingfood.backend.exceptionsv2.ErrorCode;
 import com.kingfood.backend.securityconfig.oath2.service.SecurityUtils;
+import com.kingfood.backend.validation.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -78,6 +79,10 @@ public class CustomerImpl implements CustomerService {
      * @return
      */
     private UserEntity saveOrUpdateUserForEmployee(CustomerUserDTO user) {
+        Map<String , Object> validateResult = ValidationUtils.validateRequired(user);
+        if (!validateResult.isEmpty()) {
+            throw new AppException(ErrorCode.EMPTY_PRODUCT);
+        }
         validateUserCreate(user.getUsername(), user.getEmail());
         UserEntity entity = Converter.toModel(user, UserEntity.class);
         entity.setFullName(StringConvert.convertUpperCaseStringName(user.getFullName()));

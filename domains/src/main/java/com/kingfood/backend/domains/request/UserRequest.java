@@ -11,10 +11,13 @@ import java.util.List;
 
 @Setter
 @Getter
-@Builder
 public class UserRequest {
+
+    @NotEmpty(message = "User is required")
     private String userName;
+    @NotEmpty(message = "Password is required")
     private String password;
+    @NotEmpty(message = "Email is required")
     private String email;
     private List<Long> roleIds;
 }

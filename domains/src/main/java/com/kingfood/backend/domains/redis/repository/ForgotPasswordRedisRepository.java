@@ -11,4 +11,5 @@ import java.util.Optional;
 @Repository
 public interface ForgotPasswordRedisRepository extends CrudRepository<ForgotPassWordRedisDto, Long> {
     Optional<ForgotPassWordRedisDto> findByEmail(String email);
+    void deleteByEmail(String email);
 }

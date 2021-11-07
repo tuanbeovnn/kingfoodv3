@@ -9,7 +9,6 @@ com/kingfood/backend/responseBuilder/ResponseEntityBuilder.class
 com/kingfood/backend/exceptions/ErrorConstants.class
 com/kingfood/backend/constants/Constants$ExtensionBelong.class
 com/kingfood/backend/constants/Constants$Roles.class
-com/kingfood/backend/exceptions/GlobalDefaultExceptionHandler.class
 com/kingfood/backend/constants/AppConstant$statusSendFile.class
 com/kingfood/backend/exceptions/CommonUtils.class
 com/kingfood/backend/constants/Constants$SearchOptionEnum.class
@@ -35,6 +34,7 @@ com/kingfood/backend/constants/Constants$Status.class
 com/kingfood/backend/exceptions/CustomException.class
 com/kingfood/backend/constants/Constants$TMS.class
 com/kingfood/backend/constants/Constants$Elasticsearch$Operator.class
+com/kingfood/backend/EmailUtils/EmailServiceUtil.class
 com/kingfood/backend/exceptionsv2/CustomExceptionHandler.class
 com/kingfood/backend/constants/AppConstant$principalKey.class
 com/kingfood/backend/constants/Constants$PathEnum.class

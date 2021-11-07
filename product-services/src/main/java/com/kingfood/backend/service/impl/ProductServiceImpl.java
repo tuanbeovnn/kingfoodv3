@@ -110,36 +110,52 @@ public class ProductServiceImpl implements ProductService {
         Join<Object, Object> joinCategory = productEntityRoot.join("category", JoinType.INNER);
         String name = productRequest.getProductName();
         List<Predicate> searchCritial = new ArrayList<>();
-        searchCrital(searchCritial, categoryId, criteriaBuilder,name, joinCategory, productEntityRoot);
+//        searchCrital(searchCritial, categoryId, criteriaBuilder,name, joinCategory, productEntityRoot);
+        searchCritial.add(criteriaBuilder.like(productEntityRoot.get("status"), "ACTIVE"));
+        if (!"".equals(name)) {// note: constant equal, Do not use variable equal with constant.
+            searchCritial.add(criteriaBuilder.like(productEntityRoot.get("productName"), "%" + name + "%"));
+        }
+        if (categoryId != null) {
+            searchCritial.add(criteriaBuilder.equal(joinCategory.get("id"), categoryId));
+        }
+
         productEntityCriteriaQuery.select(productEntityRoot).where(searchCritial.toArray(new Predicate[0]));
+        CriteriaBuilder count = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = count.createQuery(Long.class);
+        cq.select(count.count(cq.from(ProductEntity.class)));
+        cq.where(searchCritial.toArray(new Predicate[0]));
         TypedQuery<ProductEntity> typedQuery = entityManager.createQuery(productEntityCriteriaQuery);
+        typedQuery.setFirstResult(pageable.getPageNumber());
+        typedQuery.setMaxResults(pageable.getPageSize());
+//        long count1 =  entityManager.createQuery(cq).getSingleResult();
+
         List<ProductResponse> lstResponse = Converter.toList(typedQuery.getResultList(), ProductResponse.class);
         result.setList(lstResponse);
         result.setPageSize(pageable.getPageSize());
         result.setCurrentPage(pageable.getPageNumber());
         result.setSuccess(true);
-        long count = countProduct(criteriaBuilder, searchCritial);
-        result.setTotal(count);
-        result.setTotalPage((int) Math.ceil(count * 1.0 / pageable.getPageSize()));
+//        long count = countProduct(criteriaBuilder, searchCritial);
+//        result.setTotal(entityManager.createQuery(cq).getSingleResult());
+//        result.setTotalPage((int) Math.ceil(entityManager.createQuery(cq).getSingleResult() * 1.0 / pageable.getPageSize()));
         return result;
     }
 
-    private void searchCrital(List<Predicate> searchCritial, Long categoryId, CriteriaBuilder criteriaBuilder,
-                             String name,Join<Object, Object> joinCategory, Root<ProductEntity> productEntityRoot ){
-        searchCritial.add(criteriaBuilder.like(productEntityRoot.get("status"), "ACTIVE"));
-        if (categoryId != null) {
-            searchCritial.add(criteriaBuilder.equal(joinCategory.get("id"), categoryId));
-        }
-        if (!"".equals(name)) {// note: constant equal, Do not use variable equal with constant.
-            searchCritial.add(criteriaBuilder.like(productEntityRoot.get("productName"), "%" + name + "%"));
-        }
-    }
-
-    private long countProduct(CriteriaBuilder criteriaBuilder, List<Predicate> searchCritial){
-        CriteriaQuery<Long> cq = criteriaBuilder.createQuery(Long.class);
-        cq.select(criteriaBuilder.count(cq.from(ProductEntity.class)));
-        cq.where(searchCritial.toArray(new Predicate[0]));
-        return entityManager.createQuery(cq).getSingleResult();
-    }
+//    private void searchCrital(List<Predicate> searchCritial, Long categoryId, CriteriaBuilder criteriaBuilder,
+//                             String name,Join<Object, Object> joinCategory, Root<ProductEntity> productEntityRoot ){
+//        searchCritial.add(criteriaBuilder.like(productEntityRoot.get("status"), "ACTIVE"));
+//        if (categoryId != null) {
+//            searchCritial.add(criteriaBuilder.equal(joinCategory.get("id"), categoryId));
+//        }
+//        if (!"".equals(name)) {// note: constant equal, Do not use variable equal with constant.
+//            searchCritial.add(criteriaBuilder.like(productEntityRoot.get("productName"), "%" + name + "%"));
+//        }
+//    }
+//
+//    private long countProduct(CriteriaBuilder criteriaBuilder, List<Predicate> searchCritial){
+//        CriteriaQuery<Long> cq = criteriaBuilder.createQuery(Long.class);
+//        cq.select(criteriaBuilder.count(cq.from(ProductEntity.class)));
+//        cq.where(searchCritial.toArray(new Predicate[0]));
+//        return entityManager.createQuery(cq).getSingleResult();
+//    }
 
 }

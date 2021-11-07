@@ -2,6 +2,7 @@ package com.kingfood.backend.exceptions;
 
 
 import com.kingfood.backend.constants.Constants;
+import org.springframework.http.HttpStatus;
 
 import java.util.*;
 
@@ -43,6 +44,7 @@ public class CustomException extends RuntimeException {
         super(message);
         addError(item, errorCode, null, null, null);
     }
+
 
     /**
      * Constructor

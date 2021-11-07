@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
             String signature = DigestUtils.sha256Hex(forgotPasswordDto.getEmail() + expire + secret);
             emailServiceUtil.sendEmailActiveCode(forgotPasswordDto.getEmail(), expire, signature);
             ForgotPassWordRedisDto forgotPassWordRedisDto = new ForgotPassWordRedisDto();
-            forgotPassWordRedisDto.setEmail(forgotPassWordRedisDto.getEmail());
+            forgotPassWordRedisDto.setEmail(forgotPasswordDto.getEmail());
             forgotPassWordRedisDto.setStatus(AppConstant.ACTIVE.ACTIVE_STATUS);
             forgotPasswordRedisRepository.save(forgotPassWordRedisDto);
     }

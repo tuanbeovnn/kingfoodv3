@@ -1,3 +1,4 @@
+com/kingfood/backend/securityconfig/redis/RedisConfigure.class
 com/kingfood/backend/securityconfig/oath2/config/CORSFilter.class
 com/kingfood/backend/securityconfig/oath2/config/AuthorizationServerConfig.class
 com/kingfood/backend/securityconfig/oath2/config/WebMvcConfiguration.class
@@ -15,3 +16,4 @@ com/kingfood/backend/securityconfig/oath2/service/SecurityUtils.class
 com/kingfood/backend/securityconfig/oath2/config/SwaggerConfig.class
 com/kingfood/backend/securityconfig/interceptor/GatewayConstant.class
 com/kingfood/backend/securityconfig/oath2/service/CustomUserDetailsService.class
+com/kingfood/backend/securityconfig/mail/MailConfig.class

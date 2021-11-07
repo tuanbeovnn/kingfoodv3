@@ -46,14 +46,14 @@ public class UserAPI {
     private ForgotPasswordRedisRepository forgotPasswordRedisRepository;
 
     @RequestMapping(value = "/admin/authentication/register", method = RequestMethod.POST)
-    public ResponseEntity<?> register(@RequestBody UserRequest userRequest) {
+    public ResponseEntity<?> register(@RequestBody @Valid UserRequest userRequest) {
         signUpValidationService.validate(userRequest);
         UserResponse output = userService.createUser(userRequest);
         return ResponseEntityBuilder.getBuilder().setMessage("Create User Successfully").setDetails(output).build();
     }
 
     @RequestMapping(value = "/authentication/forgot-password", method = RequestMethod.POST)
-    public ResponseEntity<?> forgotPassword(@RequestBody ForgotPasswordDto email) throws MessagingException {
+    public ResponseEntity<?> forgotPassword(@RequestBody @Valid ForgotPasswordDto email) throws MessagingException {
         userService.forgotPassword(email);
         return ResponseEntityBuilder.getBuilder().setMessage("Email has been sent already !").build();
     }
@@ -66,7 +66,7 @@ public class UserAPI {
             throw new AppException(ErrorCode.ACTIVED_ACCOUNT);
         });
         userService.resetPassword(emailModel);
-        forgotPasswordRedisRepository.delete(forgotPassWordRedisModel);
+        forgotPasswordRedisRepository.deleteById(forgotPassWordRedisModel.getId());
         return ResponseEntityBuilder.getBuilder().setMessage("Your password has been reset and sent to your email").build();
     }
 

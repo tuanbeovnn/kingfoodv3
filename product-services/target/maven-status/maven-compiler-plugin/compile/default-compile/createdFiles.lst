@@ -1,6 +1,15 @@
-com/kingfood/backend/service/CategoryService.class
-com/kingfood/backend/service/impl/CategoryServiceImpl.class
+com/kingfood/backend/validation/ComparisonValidation.class
 com/kingfood/backend/service/FileService.class
 com/kingfood/backend/service/impl/FileServiceImpl.class
 com/kingfood/backend/service/ProductService.class
+com/kingfood/backend/validation/DefaultSignUpValidationService$CommandConstraintsValidationStep.class
+com/kingfood/backend/service/CategoryService.class
+com/kingfood/backend/validation/ValidationResult.class
+com/kingfood/backend/validation/ValidationStep.class
+com/kingfood/backend/validation/DefaultSignUpValidationService$1.class
 com/kingfood/backend/service/impl/ProductServiceImpl.class
+com/kingfood/backend/validation/SignUpValidationService.class
+com/kingfood/backend/validation/DefaultSignUpValidationService$UsernameDuplicationValidationStep.class
+com/kingfood/backend/service/impl/CategoryServiceImpl.class
+com/kingfood/backend/validation/DefaultSignUpValidationService$EmailDuplicationValidationStep.class
+com/kingfood/backend/validation/DefaultSignUpValidationService.class

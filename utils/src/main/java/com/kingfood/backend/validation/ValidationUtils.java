@@ -13,30 +13,36 @@ import java.util.regex.Pattern;
 
 public class ValidationUtils {
     private static final Logger logger = LoggerFactory.getLogger(ValidationUtils.class);
-    public static Map<String, Object> validationRequired(Object object) {
-        Map<String, Object> results = new HashMap<>();
+
+    /**
+     * validateRequired
+     *
+     * @param object
+     * @return
+     */
+    public static Map<String, Object> validateRequired(Object object) {
+        Map<String, Object> result = new HashMap<>();
         try {
             Field[] fields = object.getClass().getDeclaredFields();
             for (Field field : fields) {
                 field.setAccessible(true);
-                if (field.isAnnotationPresent(ValidateCustom.class) && field.get(object) == null || field.get(object).toString().equals("")){
-                    results.put(field.getName(), field.getAnnotation(ValidateCustom.class).message());
+                if (field.isAnnotationPresent(ValidateCustom.class) && (field.get(object) == null || field.get(object).toString().equals(""))) {
+                    result.put(field.getName(), field.getAnnotation(ValidateCustom.class).message());
                 }
-                if (field.get(object) != null && (field.get(object).getClass().equals(ArrayList.class) || field.get(object).getClass().equals(List.class))){
-                    if (field.isAnnotationPresent(ValidateCustom.class) && ((ArrayList) field.get(object)).isEmpty()){
-                        results.put(field.getName(), field.getAnnotation(ValidateCustom.class).message());
+                if (field.get(object) != null && (field.get(object).getClass().equals(ArrayList.class) || field.get(object).getClass().equals(List.class))) {
+                    if (field.isAnnotationPresent(ValidateCustom.class) && ((ArrayList) field.get(object)).isEmpty()) {
+                        result.put(field.getName(), field.getAnnotation(ValidateCustom.class).message());
                     }
                 }
             }
-        }catch (IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             logger.info("The field is required {}", e.getMessage());
         }
-        return results;
+        return result;
     }
 
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[a-z][a-z0-9_\\.]{5,32}@[a-z0-9]{2,}(\\.[a-z0-9]{2,4}){1,2}$", Pattern.CASE_INSENSITIVE);
-
 
     /**
      * validate format string email

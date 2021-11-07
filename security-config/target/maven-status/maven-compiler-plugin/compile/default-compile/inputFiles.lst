@@ -3,8 +3,10 @@
 /Users/tuannguyen/IdeaProjects/kingfood/security-config/src/main/java/com/kingfood/backend/securityconfig/oath2/config/CORSFilter.java
 /Users/tuannguyen/IdeaProjects/kingfood/security-config/src/main/java/com/kingfood/backend/securityconfig/oath2/config/WebSecurityConfig.java
 /Users/tuannguyen/IdeaProjects/kingfood/security-config/src/main/java/com/kingfood/backend/securityconfig/oath2/config/CustomPasswordAuthenticationProvider.java
+/Users/tuannguyen/IdeaProjects/kingfood/security-config/src/main/java/com/kingfood/backend/securityconfig/mail/MailConfig.java
 /Users/tuannguyen/IdeaProjects/kingfood/security-config/src/main/java/com/kingfood/backend/securityconfig/oath2/config/AuthorizationServerConfig.java
 /Users/tuannguyen/IdeaProjects/kingfood/security-config/src/main/java/com/kingfood/backend/securityconfig/oath2/service/SecurityUtils.java
+/Users/tuannguyen/IdeaProjects/kingfood/security-config/src/main/java/com/kingfood/backend/securityconfig/redis/RedisConfigure.java
 /Users/tuannguyen/IdeaProjects/kingfood/security-config/src/main/java/com/kingfood/backend/securityconfig/oath2/service/CustomUserDetailsService.java
 /Users/tuannguyen/IdeaProjects/kingfood/security-config/src/main/java/com/kingfood/backend/securityconfig/oath2/config/TokenProvider.java
 /Users/tuannguyen/IdeaProjects/kingfood/security-config/src/main/java/com/kingfood/backend/securityconfig/interceptor/GatewayConstant.java

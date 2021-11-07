@@ -1,6 +1,12 @@
 /Users/tuannguyen/IdeaProjects/kingfood/product-services/src/main/java/com/kingfood/backend/service/impl/FileServiceImpl.java
 /Users/tuannguyen/IdeaProjects/kingfood/product-services/src/main/java/com/kingfood/backend/service/CategoryService.java
+/Users/tuannguyen/IdeaProjects/kingfood/product-services/src/main/java/com/kingfood/backend/validation/ComparisonValidation.java
+/Users/tuannguyen/IdeaProjects/kingfood/product-services/src/main/java/com/kingfood/backend/validation/SignUpValidationService.java
+/Users/tuannguyen/IdeaProjects/kingfood/product-services/src/main/java/com/kingfood/backend/validation/ValidatorWithResultTypeShould.java
+/Users/tuannguyen/IdeaProjects/kingfood/product-services/src/main/java/com/kingfood/backend/validation/ValidationResult.java
+/Users/tuannguyen/IdeaProjects/kingfood/product-services/src/main/java/com/kingfood/backend/validation/DefaultSignUpValidationService.java
 /Users/tuannguyen/IdeaProjects/kingfood/product-services/src/main/java/com/kingfood/backend/service/FileService.java
 /Users/tuannguyen/IdeaProjects/kingfood/product-services/src/main/java/com/kingfood/backend/service/impl/ProductServiceImpl.java
 /Users/tuannguyen/IdeaProjects/kingfood/product-services/src/main/java/com/kingfood/backend/service/impl/CategoryServiceImpl.java
 /Users/tuannguyen/IdeaProjects/kingfood/product-services/src/main/java/com/kingfood/backend/service/ProductService.java
+/Users/tuannguyen/IdeaProjects/kingfood/product-services/src/main/java/com/kingfood/backend/validation/ValidationStep.java
