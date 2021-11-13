@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+import java.security.AuthProvider;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,9 +44,19 @@ public class UserEntity extends BaseEntity {
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private AuthProvider provider;
+
+    private String providerId;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "userid"),
             inverseJoinColumns = @JoinColumn(name = "roleid"))
     private List<RoleEntity> roles = new ArrayList<>();
+
+    public void setProvider(AuthProvider provider) {
+        this.provider = provider;
+    }
 }

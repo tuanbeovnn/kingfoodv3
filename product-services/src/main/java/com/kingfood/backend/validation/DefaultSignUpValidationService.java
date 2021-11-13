@@ -61,9 +61,9 @@ public class DefaultSignUpValidationService implements SignUpValidationService {
 
         @Override
         public ValidationResult verify(UserRequest command) {
-            if (userRepository.findByEmail(command.getEmail())) {
-                return ValidationResult.invalid(String.format("Email [%s] is already taken", command.getEmail()));
-            }
+//            if (userRepository.findByEmail(command.getEmail())) {
+//                return ValidationResult.invalid(String.format("Email [%s] is already taken", command.getEmail()));
+//            }
             return checkNext(command);
         }
     }

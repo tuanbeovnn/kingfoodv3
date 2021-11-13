@@ -58,7 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
     }
 
-    private class RequestWrapper extends HttpServletRequestWrapper {
+    private static class RequestWrapper extends HttpServletRequestWrapper {
 
         private final Map<String, String[]> params;
 

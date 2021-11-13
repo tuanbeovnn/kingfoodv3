@@ -6,20 +6,23 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Data
-public class UserPrincipalOauth2 implements UserDetails {
-
+public class UserPrincipalOauth2 implements OAuth2User, UserDetails {
+    private Long id;
     private String username;
     @JsonIgnore
     private String password;
     private Long userId;
     private String email;
     //private int hourToken;
+    private Map<String, Object> attributes;
 
 
     private Collection<? extends GrantedAuthority> authorities;
@@ -47,6 +50,11 @@ public class UserPrincipalOauth2 implements UserDetails {
                 //userEntity.getHourToken()
         );
     }
+    public static UserPrincipalOauth2 create(UserEntity user, Map<String, Object> attributes) {
+        UserPrincipalOauth2 userPrincipal = UserPrincipalOauth2.createPrincipalOauth2(user);
+        userPrincipal.setAttributes(attributes);
+        return userPrincipal;
+    }
 
     @Override
     public boolean isAccountNonExpired() {
@@ -66,5 +74,10 @@ public class UserPrincipalOauth2 implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String getName() {
+        return String.valueOf(id);
     }
 }

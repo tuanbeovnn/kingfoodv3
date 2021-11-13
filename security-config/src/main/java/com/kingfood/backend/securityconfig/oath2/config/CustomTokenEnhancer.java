@@ -17,10 +17,6 @@ import java.util.stream.Collectors;
 
 public class CustomTokenEnhancer extends JwtAccessTokenConverter {
 
-//    @Autowired
-//    private UserRepository userRepository;
-
-
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
         UserPrincipalOauth2 user = (UserPrincipalOauth2) authentication.getPrincipal();
