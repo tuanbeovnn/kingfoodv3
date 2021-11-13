@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -33,11 +34,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
     private CustomPasswordAuthenticationProvider customPasswordAuthenticationProvider;
 
 
+    @Autowired
+    private CustomOAuth2UserService customOAuth2UserService;
+
+    @Autowired
+    private OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+
+    @Autowired
+    private OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+
+    @Autowired
+    private HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
+
+
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return new ProviderManager(Lists.newArrayList(
                 customPasswordAuthenticationProvider
         ));
+    }
+
+    @Bean
+    public HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository() {
+        return new HttpCookieOAuth2AuthorizationRequestRepository();
     }
 
     @Override
@@ -64,15 +83,64 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
     }
 
     protected void configure(HttpSecurity httpSecurity) throws Exception {
+//        httpSecurity
+//                .csrf().disable().anonymous().disable()
+//                .authorizeRequests()
+//                .antMatchers("/public/api-client/**").permitAll()
+//                .antMatchers("/api/interface/**").permitAll()
+//                .antMatchers("/v2/api-docs",
+//                        "/swagger-resources/**",
+//                        "/swagger-ui.html",
+//                        "/webjars/**").permitAll();
         httpSecurity
-                .csrf().disable().anonymous().disable()
+                .cors()
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .csrf()
+                .disable()
+                .formLogin()
+                .disable()
+                .httpBasic()
+                .disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+                .and()
                 .authorizeRequests()
-                .antMatchers("/public/api-client/**").permitAll()
-                .antMatchers("/api/interface/**").permitAll()
+                .antMatchers("/",
+                        "/error",
+                        "/favicon.ico",
+                        "/**/*.png",
+                        "/**/*.gif",
+                        "/**/*.svg",
+                        "/**/*.jpg",
+                        "/**/*.html",
+                        "/**/*.css",
+                        "/**/*.js")
+                .permitAll()
+                .antMatchers("/auth/**", "/oauth2/**")
+                .permitAll()
                 .antMatchers("/v2/api-docs",
                         "/swagger-resources/**",
                         "/swagger-ui.html",
-                        "/webjars/**").permitAll();
+                        "/webjars/**").permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .oauth2Login()
+                .authorizationEndpoint()
+                .baseUri("/oauth2/authorize")
+                .authorizationRequestRepository(cookieAuthorizationRequestRepository())
+                .and()
+                .redirectionEndpoint()
+                .baseUri("/oauth2/callback/*")
+                .and()
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService)
+                .and()
+                .successHandler(oAuth2AuthenticationSuccessHandler)
+                .failureHandler(oAuth2AuthenticationFailureHandler);
         httpSecurity.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
     }
 

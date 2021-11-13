@@ -44,11 +44,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             email = securityUtils.getAdditional(header).get(AppConstant.O2Constants.EMAIL).toString();
         }
 
-        if (Objects.equals(req.getServletPath(), "/api/lms/user/login") && Objects.equals(req.getContentType(), "application/json")) {
+        if (Objects.equals(req.getServletPath(), "/api/lms/user/login")
+                && Objects.equals(req.getContentType(), "application/json")) {
             Map<String, String[]> parameters = convertParamToRequestBody(req);
             HttpServletRequest requestWrapper = new RequestWrapper(req, parameters);
             chain.doFilter(requestWrapper, res);
-        } else if (StringUtils.isEmpty(email)) {
+        } else if (email != null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
             UsernamePasswordAuthenticationToken authentication = jwtTokenUtil.getAuthentication(userDetails.getAuthorities(), userDetails);
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));

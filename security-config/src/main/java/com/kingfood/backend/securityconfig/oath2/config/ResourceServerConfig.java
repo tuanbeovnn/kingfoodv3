@@ -10,7 +10,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 
 @Configuration
 @EnableResourceServer
-@Order(2)
+//@Order(2)
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 

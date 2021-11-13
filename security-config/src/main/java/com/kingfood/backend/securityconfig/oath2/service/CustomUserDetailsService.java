@@ -27,7 +27,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (userEntity == null) {
             throw new UsernameNotFoundException("User not found");
         }
-
         return UserPrincipalOauth2.createPrincipalOauth2(userEntity);
     }
 }
