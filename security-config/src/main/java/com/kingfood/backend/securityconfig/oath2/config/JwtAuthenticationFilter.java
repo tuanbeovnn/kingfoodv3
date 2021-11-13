@@ -40,15 +40,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
         String header = req.getHeader(AppConstant.O2Constants.HEADER_STRING);
         String email = null;
-//        if (header != null && header.startsWith(AppConstant.O2Constants.TOKEN_PREFIX)) {
-//            email = securityUtils.getAdditional(header).get(AppConstant.O2Constants.EMAIL).toString();
-//        }
+        if (header != null && header.startsWith(AppConstant.O2Constants.TOKEN_PREFIX)) {
+            email = securityUtils.getAdditional(header).get(AppConstant.O2Constants.EMAIL).toString();
+        }
 
         if (Objects.equals(req.getServletPath(), "/api/lms/user/login") && Objects.equals(req.getContentType(), "application/json")) {
             Map<String, String[]> parameters = convertParamToRequestBody(req);
             HttpServletRequest requestWrapper = new RequestWrapper(req, parameters);
             chain.doFilter(requestWrapper, res);
-        } else if (email != null) {
+        } else if (StringUtils.isEmpty(email)) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
             UsernamePasswordAuthenticationToken authentication = jwtTokenUtil.getAuthentication(userDetails.getAuthorities(), userDetails);
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
