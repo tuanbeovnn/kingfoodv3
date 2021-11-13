@@ -5,13 +5,13 @@ import com.google.common.io.ByteStreams;
 import com.kingfood.backend.constants.AppConstant;
 import com.kingfood.backend.securityconfig.oath2.service.CustomUserDetailsService;
 import com.kingfood.backend.securityconfig.oath2.service.SecurityUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.web.savedrequest.Enumerator;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -35,11 +35,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
     private SecurityUtils securityUtils;
+    @Autowired
+    private TokenProvider tokenProvider;
 
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
         String header = req.getHeader(AppConstant.O2Constants.HEADER_STRING);
         String email = null;
+        String jwt = getJwtFromRequest(req);
+
+        if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
+            Long userId = tokenProvider.getUserIdFromToken(jwt);
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
+
         if (header != null && header.startsWith(AppConstant.O2Constants.TOKEN_PREFIX)) {
             email = securityUtils.getAdditional(header).get(AppConstant.O2Constants.EMAIL).toString();
         }
@@ -103,5 +113,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                 e -> new String[]{e.getValue()})
                         );
         return parameters;
+    }
+
+    private String getJwtFromRequest(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7, bearerToken.length());
+        }
+        return null;
     }
 }

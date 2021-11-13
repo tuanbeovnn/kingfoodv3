@@ -2,8 +2,10 @@ package com.kingfood.backend.gateway.users;
 
 
 
+import com.kingfood.backend.dbprovider.UserRepository;
 import com.kingfood.backend.domains.dto.EmailDto;
 import com.kingfood.backend.domains.dto.ForgotPasswordDto;
+import com.kingfood.backend.domains.entity.UserEntity;
 import com.kingfood.backend.domains.redis.ForgotPassWordRedisDto;
 import com.kingfood.backend.domains.redis.repository.ForgotPasswordRedisRepository;
 import com.kingfood.backend.domains.request.ChangePasswordRequest;
@@ -12,12 +14,16 @@ import com.kingfood.backend.domains.response.UserResponse;
 import com.kingfood.backend.exceptionsv2.AppException;
 import com.kingfood.backend.exceptionsv2.ErrorCode;
 import com.kingfood.backend.responseBuilder.ResponseEntityBuilder;
+import com.kingfood.backend.securityconfig.oath2.config.CurrentUser;
+import com.kingfood.backend.securityconfig.oath2.dto.UserPrincipalOauth2;
 import com.kingfood.backend.user.UserService;
 import com.kingfood.backend.validation.DefaultSignUpValidationService;
 import com.kingfood.backend.validation.SignUpValidationService;
 import io.swagger.annotations.Api;
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,10 +46,20 @@ public class UserAPI {
     private UserService userService;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private SignUpValidationService signUpValidationService;
 
     @Autowired
     private ForgotPasswordRedisRepository forgotPasswordRedisRepository;
+
+    @GetMapping("/user/me")
+    @PreAuthorize("hasRole('USER')")
+    public UserEntity getCurrentUser(@CurrentUser UserPrincipalOauth2 userPrincipal) {
+        return userRepository.findById(userPrincipal.getUserId())
+                .orElseThrow(() -> new AppException(ErrorCode.ID_NOT_FOUND));
+    }
 
     @RequestMapping(value = "/admin/authentication/register", method = RequestMethod.POST)
     public ResponseEntity<?> register(@RequestBody @Valid UserRequest userRequest) {
