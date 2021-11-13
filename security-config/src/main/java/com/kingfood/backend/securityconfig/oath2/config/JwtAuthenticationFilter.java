@@ -44,14 +44,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String email = null;
         String jwt = getJwtFromRequest(req);
 
-        if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-            Long userId = tokenProvider.getUserIdFromToken(jwt);
-
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        }
-
         if (header != null && header.startsWith(AppConstant.O2Constants.TOKEN_PREFIX)) {
-            email = securityUtils.getAdditional(header).get(AppConstant.O2Constants.EMAIL).toString();
+            email = tokenProvider.getEmailFromToken(jwt);
         }
 
         if (Objects.equals(req.getServletPath(), "/api/lms/user/login")

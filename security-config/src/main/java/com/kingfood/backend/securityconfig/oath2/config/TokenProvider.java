@@ -53,6 +53,15 @@ public class TokenProvider {
         return Long.parseLong(claims.getSubject());
     }
 
+    public String getEmailFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(SECRET)
+                .parseClaimsJws(token)
+                .getBody();
+
+        return (String) claims.get("email");
+    }
+
 
     UsernamePasswordAuthenticationToken getAuthentication(Collection<? extends GrantedAuthority> authorities, final UserDetails userDetails) {
         return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);

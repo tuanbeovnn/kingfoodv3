@@ -1,8 +1,12 @@
 package com.kingfood.backend.securityconfig.oath2.config;
 
 import com.kingfood.backend.cookies.CookieUtils;
+import com.kingfood.backend.securityconfig.oath2.dto.UserPrincipalOauth2;
+import com.kingfood.backend.securityconfig.oath2.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -26,6 +30,8 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
+    @Autowired
+    CustomUserDetailsService userDetailsService;
 
     @Autowired
     OAuth2AuthenticationSuccessHandler(TokenProvider tokenProvider, AppProperties appProperties,
@@ -58,7 +64,12 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
 
-        String token = tokenProvider.createToken(authentication);
+        UserPrincipalOauth2 principal = (UserPrincipalOauth2) authentication.getPrincipal();
+        String token = "";
+        if(principal!=null){
+            UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getEmail());
+            token = tokenProvider.generateToken(userDetails);
+        }
 
         return UriComponentsBuilder.fromUriString(targetUrl)
                 .queryParam("token", token)
