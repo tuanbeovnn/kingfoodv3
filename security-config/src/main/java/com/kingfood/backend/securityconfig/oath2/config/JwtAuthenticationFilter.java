@@ -5,6 +5,7 @@ import com.google.common.io.ByteStreams;
 import com.kingfood.backend.constants.AppConstant;
 import com.kingfood.backend.securityconfig.oath2.service.CustomUserDetailsService;
 import com.kingfood.backend.securityconfig.oath2.service.SecurityUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,9 +40,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
         String header = req.getHeader(AppConstant.O2Constants.HEADER_STRING);
         String email = null;
-        if (header != null && header.startsWith(AppConstant.O2Constants.TOKEN_PREFIX)) {
-            email = securityUtils.getAdditional(header).get(AppConstant.O2Constants.EMAIL).toString();
-        }
+//        if (header != null && header.startsWith(AppConstant.O2Constants.TOKEN_PREFIX)) {
+//            email = securityUtils.getAdditional(header).get(AppConstant.O2Constants.EMAIL).toString();
+//        }
 
         if (Objects.equals(req.getServletPath(), "/api/lms/user/login") && Objects.equals(req.getContentType(), "application/json")) {
             Map<String, String[]> parameters = convertParamToRequestBody(req);

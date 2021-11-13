@@ -1,13 +1,14 @@
 package com.kingfood.backend.domains.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kingfood.backend.domains.enums.AuthProvider;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-import java.security.AuthProvider;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,8 +56,4 @@ public class UserEntity extends BaseEntity {
             joinColumns = @JoinColumn(name = "userid"),
             inverseJoinColumns = @JoinColumn(name = "roleid"))
     private List<RoleEntity> roles = new ArrayList<>();
-
-    public void setProvider(AuthProvider provider) {
-        this.provider = provider;
-    }
 }

@@ -1,5 +1,7 @@
 package com.kingfood.backend.securityconfig.oath2.config;
 
+import com.kingfood.backend.dbprovider.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
