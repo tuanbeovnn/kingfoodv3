@@ -62,9 +62,9 @@ public class CustomerImpl implements CustomerService {
     @Override
     public ProfileResponse userProfile() {
         ProfileResponse profileResponse = new ProfileResponse();
-        CustomerEntity customerEntity = customerRepository.findById(SecurityUtils.getPrincipal().getUserId()).get();
-        Long countOrderCustomer = orderRepository.countByCustomerId(SecurityUtils.getPrincipal().getUserId());
-        List<ProductProfileResponse> productProfileResponses = productRepositoryCustom.findListOrderByCustomerId(SecurityUtils.getPrincipal().getUserId());
+        CustomerEntity customerEntity = customerRepository.findById(SecurityUtils.getPrincipal().getId()).get();
+        Long countOrderCustomer = orderRepository.countByCustomerId(SecurityUtils.getPrincipal().getId());
+        List<ProductProfileResponse> productProfileResponses = productRepositoryCustom.findListOrderByCustomerId(SecurityUtils.getPrincipal().getId());
         profileResponse.setListProduct(productProfileResponses);
         profileResponse.setOrder(countOrderCustomer);
         profileResponse.setPending(0);

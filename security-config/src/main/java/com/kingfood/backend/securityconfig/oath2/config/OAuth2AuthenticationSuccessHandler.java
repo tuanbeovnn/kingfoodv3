@@ -66,7 +66,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         UserPrincipalOauth2 principal = (UserPrincipalOauth2) authentication.getPrincipal();
         String token = "";
-        if(principal!=null){
+        if (principal != null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getEmail());
             token = tokenProvider.generateToken(userDetails);
         }

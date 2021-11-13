@@ -115,7 +115,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public boolean changePassword(ChangePasswordRequest changePasswordRequest) {
-        UserEntity userEntity = userRepository.findById(SecurityUtils.getPrincipal().getUserId()).orElseThrow((() -> new AppException(ErrorCode.ID_NOT_FOUND)));
+        UserEntity userEntity = userRepository.findById(SecurityUtils.getPrincipal().getId()).orElseThrow((() -> new AppException(ErrorCode.ID_NOT_FOUND)));
         if (passwordEncoder.matches(changePasswordRequest.getOldPassword(), userEntity.getPassword())) {
             userEntity.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
             userRepository.save(userEntity);

@@ -73,7 +73,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderResponse createOrder(OrderDTO orderDTO) {
         OrderEntity orderEntity = Converter.toModel(orderDTO, OrderEntity.class);
         orderEntity.setOrderDate(DateTimeUtils.getDateTimeNow());
-        CustomerEntity customerEntity = customerRepository.findById(SecurityUtils.getPrincipal().getUserId()).get();
+        CustomerEntity customerEntity = customerRepository.findById(SecurityUtils.getPrincipal().getId()).get();
         orderEntity.setCustomer(customerEntity);
         List<ProductEntity> listProductsExists = validationProduct(orderDTO.getOrderDetailRequests());
         List<Long> existingProductIds = listProductsExists.stream().map(ProductEntity::getId).collect(Collectors.toList());

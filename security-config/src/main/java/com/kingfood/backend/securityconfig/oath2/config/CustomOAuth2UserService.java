@@ -45,7 +45,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         if(StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
             throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
         }
-
         Optional<UserEntity> userOptional = userRepository.findByEmail(oAuth2UserInfo.getEmail());
         UserEntity user;
         if(userOptional.isPresent()) {

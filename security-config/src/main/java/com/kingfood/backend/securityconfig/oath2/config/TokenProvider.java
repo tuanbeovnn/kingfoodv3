@@ -37,7 +37,7 @@ public class TokenProvider {
         Date expiryDate = new Date(now.getTime() + appProperties.getAuth().getTokenExpirationMsec());
 
         return Jwts.builder()
-                .setSubject(Long.toString(userPrincipal.getUserId()))
+                .setSubject(Long.toString(userPrincipal.getId()))
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, SECRET)
@@ -58,7 +58,6 @@ public class TokenProvider {
                 .setSigningKey(SECRET)
                 .parseClaimsJws(token)
                 .getBody();
-
         return (String) claims.get("email");
     }
 

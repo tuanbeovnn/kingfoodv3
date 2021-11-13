@@ -57,7 +57,7 @@ public class UserAPI {
     @GetMapping("/user/me")
     @PreAuthorize("hasRole('USER')")
     public UserEntity getCurrentUser(@CurrentUser UserPrincipalOauth2 userPrincipal) {
-        return userRepository.findById(userPrincipal.getUserId())
+        return userRepository.findById(userPrincipal.getId())
                 .orElseThrow(() -> new AppException(ErrorCode.ID_NOT_FOUND));
     }
 

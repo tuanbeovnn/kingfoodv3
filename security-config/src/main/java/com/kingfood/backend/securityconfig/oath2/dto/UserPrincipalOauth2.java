@@ -19,7 +19,7 @@ public class UserPrincipalOauth2 implements OAuth2User, UserDetails {
     private String username;
     @JsonIgnore
     private String password;
-    private Long userId;
+//    private Long userId;
     private String email;
     //private int hourToken;
     private Map<String, Object> attributes;
@@ -27,10 +27,11 @@ public class UserPrincipalOauth2 implements OAuth2User, UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrincipalOauth2(String username, String password, String email, Long userId, Collection<? extends GrantedAuthority> authorities /*, int hourToken*/) {
+    public UserPrincipalOauth2(String username, String password, String email, Long id, Collection<? extends GrantedAuthority> authorities /*, int hourToken*/) {
         this.username = username;
         this.password = password;
-        this.userId = userId;
+//        this.userId = userId;
+        this.id = id;
         this.email = email;
         this.authorities = authorities;
         //this.hourToken = hourToken;
@@ -78,6 +79,6 @@ public class UserPrincipalOauth2 implements OAuth2User, UserDetails {
 
     @Override
     public String getName() {
-        return String.valueOf(id);
+        return String.valueOf(username);
     }
 }
