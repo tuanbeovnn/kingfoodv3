@@ -13,4 +13,6 @@ public interface UserService {
     void forgotPassword(ForgotPasswordDto forgotPasswordDto);
     void resetPassword(EmailDto emailModel);
     boolean changePassword(ChangePasswordRequest changePasswordRequest);
+
+    UserResponse findUserById();
 }

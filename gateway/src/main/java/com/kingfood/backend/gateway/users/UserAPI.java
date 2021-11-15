@@ -61,6 +61,12 @@ public class UserAPI {
                 .orElseThrow(() -> new AppException(ErrorCode.ID_NOT_FOUND));
     }
 
+    @GetMapping("/user")
+    public ResponseEntity<?> getUser() {
+        UserResponse output = userService.findUserById();
+        return ResponseEntityBuilder.getBuilder().setMessage("Get User Successfully").setDetails(output).build();
+    }
+
     @RequestMapping(value = "/admin/authentication/register", method = RequestMethod.POST)
     public ResponseEntity<?> register(@RequestBody @Valid UserRequest userRequest) {
         signUpValidationService.validate(userRequest);

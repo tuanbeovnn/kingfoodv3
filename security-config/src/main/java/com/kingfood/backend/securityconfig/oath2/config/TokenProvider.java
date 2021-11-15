@@ -46,11 +46,11 @@ public class TokenProvider {
 
     public Long getUserIdFromToken(String token) {
         Claims claims = Jwts.parser()
-                .setSigningKey(appProperties.getAuth().getTokenSecret())
+                .setSigningKey(SECRET)
                 .parseClaimsJws(token)
                 .getBody();
-
-        return Long.parseLong(claims.getSubject());
+        Integer id = (Integer) claims.get("id");
+        return id.longValue();
     }
 
     public String getEmailFromToken(String token) {
@@ -75,6 +75,7 @@ public class TokenProvider {
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
                 .signWith(SignatureAlgorithm.HS512, SECRET).compact();
+
     }
 
     public boolean validateToken(String authToken) {

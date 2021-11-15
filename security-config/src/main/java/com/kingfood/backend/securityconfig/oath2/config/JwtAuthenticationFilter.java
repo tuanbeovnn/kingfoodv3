@@ -42,10 +42,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
         String header = req.getHeader(AppConstant.O2Constants.HEADER_STRING);
         String email = null;
+        Long userId = null;
         String jwt = getJwtFromRequest(req);
 
         if (header != null && header.startsWith(AppConstant.O2Constants.TOKEN_PREFIX)) {
-            email = tokenProvider.getEmailFromToken(jwt);
+            userId = tokenProvider.getUserIdFromToken(jwt);
         }
 
         if (Objects.equals(req.getServletPath(), "/api/lms/user/login")
@@ -53,8 +54,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             Map<String, String[]> parameters = convertParamToRequestBody(req);
             HttpServletRequest requestWrapper = new RequestWrapper(req, parameters);
             chain.doFilter(requestWrapper, res);
-        } else if (email != null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+        } else if (userId != null) {
+            UserDetails userDetails = userDetailsService.loadUserById(userId);
             UsernamePasswordAuthenticationToken authentication = jwtTokenUtil.getAuthentication(userDetails.getAuthorities(), userDetails);
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
             SecurityContextHolder.getContext().setAuthentication(authentication);

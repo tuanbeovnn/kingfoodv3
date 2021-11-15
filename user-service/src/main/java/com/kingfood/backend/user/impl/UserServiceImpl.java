@@ -80,13 +80,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void forgotPassword(ForgotPasswordDto forgotPasswordDto) {
-            long expire = System.currentTimeMillis() + 20 * 60 * 1000;
-            String signature = DigestUtils.sha256Hex(forgotPasswordDto.getEmail() + expire + secret);
-            emailServiceUtil.sendEmailActiveCode(forgotPasswordDto.getEmail(), expire, signature);
-            ForgotPassWordRedisDto forgotPassWordRedisDto = new ForgotPassWordRedisDto();
-            forgotPassWordRedisDto.setEmail(forgotPasswordDto.getEmail());
-            forgotPassWordRedisDto.setStatus(AppConstant.ACTIVE.ACTIVE_STATUS);
-            forgotPasswordRedisRepository.save(forgotPassWordRedisDto);
+        long expire = System.currentTimeMillis() + 20 * 60 * 1000;
+        String signature = DigestUtils.sha256Hex(forgotPasswordDto.getEmail() + expire + secret);
+        emailServiceUtil.sendEmailActiveCode(forgotPasswordDto.getEmail(), expire, signature);
+        ForgotPassWordRedisDto forgotPassWordRedisDto = new ForgotPassWordRedisDto();
+        forgotPassWordRedisDto.setEmail(forgotPasswordDto.getEmail());
+        forgotPassWordRedisDto.setStatus(AppConstant.ACTIVE.ACTIVE_STATUS);
+        forgotPasswordRedisRepository.save(forgotPassWordRedisDto);
     }
 
     @Override
@@ -108,7 +108,7 @@ public class UserServiceImpl implements UserService {
             userRepository.save(userEntity);
             emailServiceUtil.sendMail(emailModel.getEmail(), "RESET PASSWORD", "Current Password: " + newPassword);
         } catch (MessagingException e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
@@ -123,5 +123,11 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new AppException(ErrorCode.PASSWORD_DID_NOT_MATCH);
         }
+    }
+
+    @Override
+    public UserResponse findUserById() {
+        UserEntity userEntity = userRepository.findById(SecurityUtils.getPrincipal().getId()).orElseThrow((() -> new AppException(ErrorCode.ID_NOT_FOUND)));
+        return Converter.toModel(userEntity, UserResponse.class);
     }
 }
